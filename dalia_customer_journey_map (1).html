@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dalia Premium — Customer Journey Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EF;
+    --warm-white: #FFFDF9;
+    --grain: #F2EBD9;
+    --ochre: #C8822A;
+    --ochre-light: #E9A94C;
+    --turmeric: #D4A017;
+    --deep-brown: #2C1A0E;
+    --brown-mid: #5C3A1E;
+    --sage: #6B7C5C;
+    --sage-light: #A8B898;
+    --dusty-rose: #C4856A;
+    --terracotta: #B5522A;
+    --midnight: #1A1208;
+    --ink: #2C2018;
+    --muted: #8B7355;
+    --border: rgba(44,26,14,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--deep-brown);
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '🌾';
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 120px;
+    opacity: 0.08;
+  }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ochre-light);
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    color: var(--cream);
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  .header h1 em {
+    color: var(--ochre-light);
+    font-style: italic;
+  }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+  .meta-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--sage-light);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── EMOTIONAL CURVE ─── */
+  .curve-section {
+    background: var(--deep-brown);
+    padding: 0 48px 60px;
+  }
+  .curve-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 20px;
+  }
+  .curve-wrapper {
+    position: relative;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 32px 24px 20px;
+  }
+  .curve-svg-container {
+    width: 100%;
+    height: 160px;
+  }
+  svg.curve {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .curve-stages {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0 0;
+  }
+  .curve-stage-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    font-family: 'DM Mono', monospace;
+    text-align: center;
+    flex: 1;
+    letter-spacing: 0.5px;
+  }
+  .curve-y-labels {
+    position: absolute;
+    left: 8px;
+    top: 28px;
+    bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .y-label {
+    font-size: 9px;
+    color: rgba(255,255,255,0.25);
+    font-family: 'DM Mono', monospace;
+    writing-mode: horizontal-tb;
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ─── STAGE CARDS ─── */
+  .stages-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .stage-block {
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .stage-block.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stage-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 36px 0 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .stage-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    min-width: 24px;
+  }
+  .stage-emoji {
+    font-size: 28px;
+    line-height: 1;
+  }
+  .stage-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--deep-brown);
+    flex: 1;
+  }
+  .stage-emotion-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1.5px solid;
+  }
+  .toggle-arrow {
+    font-size: 14px;
+    color: var(--muted);
+    transition: transform 0.3s ease;
+  }
+  .stage-block.open .toggle-arrow {
+    transform: rotate(180deg);
+  }
+
+  .stage-subtitle {
+    padding: 8px 0 24px 44px;
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .stage-body {
+    display: none;
+    padding: 0 0 40px 44px;
+  }
+  .stage-block.open .stage-body {
+    display: block;
+  }
+
+  .grid-6 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 900px) {
+    .grid-6 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .grid-6 { grid-template-columns: 1fr; }
+    .stage-body { padding-left: 0; }
+  }
+
+  .info-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .card-icon {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .card-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .card-content {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .card-content ul {
+    list-style: none;
+    padding: 0;
+  }
+  .card-content ul li {
+    padding: 3px 0 3px 16px;
+    position: relative;
+  }
+  .card-content ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  /* Metric pills */
+  .metrics-row {
+    background: var(--grain);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 4px;
+  }
+  .metrics-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .metrics-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pill {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: var(--brown-mid);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Delight box */
+  .delight-box {
+    background: linear-gradient(135deg, rgba(200,130,42,0.08), rgba(107,124,92,0.08));
+    border: 1.5px dashed var(--ochre);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 4px;
+  }
+  .delight-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ochre);
+    margin-bottom: 8px;
+  }
+  .delight-content {
+    font-size: 13px;
+    color: var(--brown-mid);
+    line-height: 1.6;
+  }
+
+  /* Stage-specific colors */
+  .stage-0 .info-card::before { background: #7EB5D6; }
+  .stage-0 .stage-emotion-tag { color: #7EB5D6; border-color: #7EB5D6; }
+  .stage-1 .info-card::before { background: #A8B898; }
+  .stage-1 .stage-emotion-tag { color: var(--sage); border-color: var(--sage); }
+  .stage-2 .info-card::before { background: var(--ochre); }
+  .stage-2 .stage-emotion-tag { color: var(--ochre); border-color: var(--ochre); }
+  .stage-3 .info-card::before { background: var(--turmeric); }
+  .stage-3 .stage-emotion-tag { color: var(--turmeric); border-color: var(--turmeric); }
+  .stage-4 .info-card::before { background: var(--dusty-rose); }
+  .stage-4 .stage-emotion-tag { color: var(--dusty-rose); border-color: var(--dusty-rose); }
+  .stage-5 .info-card::before { background: var(--sage); }
+  .stage-5 .stage-emotion-tag { color: var(--sage); border-color: var(--sage); }
+  .stage-6 .info-card::before { background: var(--terracotta); }
+  .stage-6 .stage-emotion-tag { color: var(--terracotta); border-color: var(--terracotta); }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--deep-brown);
+    padding: 32px 48px;
+    text-align: center;
+  }
+  .footer p {
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* Print */
+  @media print {
+    .stage-body { display: block !important; }
+    .toggle-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">Customer Journey Map · CX Strategy Framework</div>
+  <h1>The <em>Dalia Premium</em><br>Customer Journey</h1>
+  <div class="header-meta">
+    <span class="meta-chip">🎯 Urban Indian Millennials · 25–35</span>
+    <span class="meta-chip">📍 Tier 1 Cities · Delhi / Mumbai / Bengaluru</span>
+    <span class="meta-chip">🔄 Pre-launch · 7 Lifecycle Stages</span>
+    <span class="meta-chip">👤 Converts from: Oats Eaters</span>
+  </div>
+</div>
+
+<!-- EMOTIONAL CURVE -->
+<div class="curve-section">
+  <div class="curve-label">Emotional Journey Curve — Sentiment Across Lifecycle</div>
+  <div class="curve-wrapper">
+    <div class="curve-y-labels">
+      <span class="y-label">Delighted</span>
+      <span class="y-label">Positive</span>
+      <span class="y-label">Neutral</span>
+      <span class="y-label">Frustrated</span>
+    </div>
+    <div class="curve-svg-container">
+      <svg class="curve" viewBox="0 0 700 140" preserveAspectRatio="none">
+        <!-- Grid lines -->
+        <line x1="0" y1="20" x2="700" y2="20" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <line x1="0" y1="55" x2="700" y2="55" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <line x1="0" y1="90" x2="700" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <line x1="0" y1="125" x2="700" y2="125" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <!-- Neutral baseline -->
+        <line x1="0" y1="90" x2="700" y2="90" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        
+        <!-- Emotional curve path -->
+        <!-- Awareness:55 → Consideration:70 → Decision:85 → Onboarding:30 → Engagement:45 → Loyalty:20 → Churn:110 -->
+        <defs>
+          <linearGradient id="curveGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7EB5D6"/>
+            <stop offset="16%" stop-color="#A8B898"/>
+            <stop offset="33%" stop-color="#C8822A"/>
+            <stop offset="50%" stop-color="#D4A017"/>
+            <stop offset="66%" stop-color="#C4856A"/>
+            <stop offset="83%" stop-color="#6B7C5C"/>
+            <stop offset="100%" stop-color="#B5522A"/>
+          </linearGradient>
+          <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(200,130,42,0.2)"/>
+            <stop offset="100%" stop-color="rgba(200,130,42,0)"/>
+          </linearGradient>
+        </defs>
+        
+        <!-- Fill area -->
+        <path d="M0,55 C50,55 80,70 100,70 C150,70 180,82 200,85 C250,85 270,95 300,95 C330,95 350,30 400,30 C420,30 450,42 500,45 C540,45 560,20 600,20 C640,20 660,100 700,110 L700,140 L0,140 Z" fill="url(#fillGrad)"/>
+        
+        <!-- Main curve -->
+        <path d="M0,55 C50,55 80,70 100,70 C150,70 180,82 200,85 C250,85 270,95 300,95 C330,95 350,30 400,30 C420,30 450,42 500,45 C540,45 560,20 600,20 C640,20 660,100 700,110" 
+              fill="none" stroke="url(#curveGrad)" stroke-width="2.5" stroke-linecap="round"/>
+        
+        <!-- Stage dots -->
+        <circle cx="0" cy="55" r="5" fill="#7EB5D6"/>
+        <circle cx="100" cy="70" r="5" fill="#A8B898"/>
+        <circle cx="200" cy="85" r="5" fill="#C8822A"/>
+        <circle cx="300" cy="95" r="5" fill="#D4A017"/>
+        <circle cx="400" cy="30" r="5" fill="#C4856A"/>
+        <circle cx="500" cy="45" r="5" fill="#6B7C5C"/>
+        <circle cx="600" cy="20" r="5" fill="#6B7C5C"/>
+        <circle cx="700" cy="110" r="5" fill="#B5522A"/>
+        
+        <!-- Labels on dots -->
+        <text x="0" y="46" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">curious</text>
+        <text x="100" y="61" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">skeptical</text>
+        <text x="200" y="76" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">hesitant</text>
+        <text x="300" y="110" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">anxious</text>
+        <text x="400" y="21" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">delighted!</text>
+        <text x="500" y="36" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">habituated</text>
+        <text x="600" y="11" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">proud</text>
+        <text x="685" y="101" fill="rgba(255,255,255,0.5)" font-size="8" font-family="monospace" text-anchor="middle">gone</text>
+      </svg>
+    </div>
+    <div class="curve-stages">
+      <span class="curve-stage-label">Awareness</span>
+      <span class="curve-stage-label">Consideration</span>
+      <span class="curve-stage-label">Decision</span>
+      <span class="curve-stage-label">Onboarding</span>
+      <span class="curve-stage-label">Engagement</span>
+      <span class="curve-stage-label">Loyalty</span>
+      <span class="curve-stage-label">Churn Risk</span>
+    </div>
+  </div>
+</div>
+
+<!-- STAGE CARDS -->
+<div class="main">
+  <div class="stages-grid" id="stages">
+
+    <!-- STAGE 1: AWARENESS -->
+    <div class="stage-block stage-0 open" data-stage="0">
+      <div class="stage-header" onclick="toggleStage(this.parentElement)">
+        <span class="stage-number">01</span>
+        <span class="stage-emoji">👀</span>
+        <span class="stage-name">Awareness</span>
+        <span class="stage-emotion-tag">Curious · Indifferent</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+      <div class="stage-subtitle">"Wait — dalia for breakfast? That's not just my mum's thing anymore?"</div>
+      <div class="stage-body">
+        <div class="grid-6">
+          <div class="info-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Customer Actions & Thoughts</span>
+            <div class="card-content"><ul>
+              <li>Scrolling Instagram/Reels, sees a "healthy Indian breakfast" video</li>
+              <li>Encounters a friend's story featuring a dalia bowl</li>
+              <li>Searches "oat alternatives India" or "high protein Indian breakfast"</li>
+              <li>Thinks: "Is dalia actually better than oats? Seems old-school…"</li>
+              <li>Casually notices brand on Big Basket homepage or Zepto ad</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <span class="card-title">Touchpoints</span>
+            <div class="card-content"><ul>
+              <li><strong>Digital:</strong> Instagram Reels, YouTube Shorts, Google Search, Zepto/Blinkit top-of-page</li>
+              <li><strong>Social:</strong> Micro-influencer posts (fitness + food creators, 50K–200K followers)</li>
+              <li><strong>Physical:</strong> Sampling kiosks at gyms, RWA events, WeWork lobbies</li>
+              <li><strong>Word of mouth:</strong> Colleague or flatmate eating it at home</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">😤</span>
+            <span class="card-title">Pain Points & Friction</span>
+            <div class="card-content"><ul>
+              <li>"Dalia = boring hospital food" — strong legacy perception barrier</li>
+              <li>No visual aspirational identity yet vs. oats (Saffola, Quaker)</li>
+              <li>Category confusion: "Is this the same as broken wheat porridge?"</li>
+              <li>Low search volume means weak SEO discovery initially</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="delight-box">
+          <div class="delight-label">✨ Opportunities to Delight</div>
+          <div class="delight-content">Lead with <strong>aspirational visuals</strong> — not nutrition charts. Show a dalia bowl next to a MacBook in a Bengaluru flat. Run a "Switch from Oats" challenge. Partner with 3 credible fitness influencers who genuinely eat Indian food. Create shareable content: "Why I quit oats for dalia" — first-person format performs 3x better than brand posts. Sampling at premium gyms (Cult.fit, Gold's) is your highest-quality touchpoint.</div>
+        </div>
+        <div class="metrics-row">
+          <div class="metrics-label">📊 Key Metrics to Track</div>
+          <div class="metrics-pills">
+            <span class="pill">Instagram Reach & Saves</span>
+            <span class="pill">Share of Search (dalia vs oats)</span>
+            <span class="pill">Branded search volume growth</span>
+            <span class="pill">Sampling trial rate</span>
+            <span class="pill">Cost per Aware Customer</span>
+            <span class="pill">Top-of-funnel CTR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 2: CONSIDERATION -->
+    <div class="stage-block stage-1" data-stage="1">
+      <div class="stage-header" onclick="toggleStage(this.parentElement)">
+        <span class="stage-number">02</span>
+        <span class="stage-emoji">🔍</span>
+        <span class="stage-name">Consideration</span>
+        <span class="stage-emotion-tag">Skeptical · Curious</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+      <div class="stage-subtitle">"Okay, I'm genuinely intrigued. Let me do my homework before I spend ₹149 on this."</div>
+      <div class="stage-body">
+        <div class="grid-6">
+          <div class="info-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Customer Actions & Thoughts</span>
+            <div class="card-content"><ul>
+              <li>Googles "dalia vs oats protein" — reads 2–3 articles</li>
+              <li>Checks Amazon/BigBasket reviews on existing dalia products</li>
+              <li>Compares ingredients: dalia vs Saffola Oats vs Muesli</li>
+              <li>Asks WhatsApp group: "Has anyone tried premium dalia brands?"</li>
+              <li>Watches a YouTube recipe video to gauge "is this easy to make?"</li>
+              <li>Thinks: "Will my family think I'm weird? Will it taste good?"</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <span class="card-title">Touchpoints</span>
+            <div class="card-content"><ul>
+              <li><strong>Digital:</strong> Brand website, Google search results, BigBasket product page, Reddit India</li>
+              <li><strong>Content:</strong> Nutrition comparison blogs, recipe videos, Healthshots / Femina articles</li>
+              <li><strong>Social proof:</strong> Instagram comments, YouTube recipe channels, Swiggy Instamart reviews</li>
+              <li><strong>Physical:</strong> In-store shelf browsing at Reliance Smart, Nature's Basket</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">😤</span>
+            <span class="card-title">Pain Points & Friction</span>
+            <div class="card-content"><ul>
+              <li>No established reviews for a new brand — zero social proof</li>
+              <li>Website may not answer "how is this different from regular dalia?"</li>
+              <li>₹149 vs local dalia at ₹40 — price gap feels unjustified without story</li>
+              <li>Uncertainty about taste and prep time (busy working professional)</li>
+              <li>Fear of buying a full pack and not liking it</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="delight-box">
+          <div class="delight-label">✨ Opportunities to Delight</div>
+          <div class="delight-content">Build a <strong>knockout comparison page</strong> — Dalia vs Oats, head-to-head on fibre, glycaemic index, protein, iron, satiety. Make it Pinterest-shareable. Invest in SEO content: "dalia benefits for working professionals India." Offer a <strong>starter kit / trial pack</strong> (₹59 for 3 servings) to eliminate risk. Seed Reddit's r/india and r/fitness threads authentically. A "3-minute recipe" video with a relatable urban persona (not a fitness model — a product manager) converts far better.</div>
+        </div>
+        <div class="metrics-row">
+          <div class="metrics-label">📊 Key Metrics to Track</div>
+          <div class="metrics-pills">
+            <span class="pill">Website sessions & time on page</span>
+            <span class="pill">Comparison content engagement</span>
+            <span class="pill">Add-to-cart rate</span>
+            <span class="pill">Bounce rate on product page</span>
+            <span class="pill">Trial pack redemption rate</span>
+            <span class="pill">Review velocity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 3: DECISION -->
+    <div class="stage-block stage-2" data-stage="2">
+      <div class="stage-header" onclick="toggleStage(this.parentElement)">
+        <span class="stage-number">03</span>
+        <span class="stage-emoji">🛒</span>
+        <span class="stage-name">Decision</span>
+        <span class="stage-emotion-tag">Hesitant · Decisive</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+      <div class="stage-subtitle">"Alright — I'm adding to cart. But this better be worth ₹149."</div>
+      <div class="stage-body">
+        <div class="grid-6">
+          <div class="info-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Customer Actions & Thoughts</span>
+            <div class="card-content"><ul>
+              <li>Visits product page — scans for reviews, ingredients, claims</li>
+              <li>Looks for a discount code or first-order offer</li>
+              <li>Checks delivery timeline (expects same-day or next-day)</li>
+              <li>Hesitates at checkout — compares with a cheaper option</li>
+              <li>Converts after: seeing a coupon, 4+ star reviews, or "15 sold today"</li>
+              <li>May buy both D2C and try once from BigBasket to compare experience</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <span class="card-title">Touchpoints</span>
+            <div class="card-content"><ul>
+              <li><strong>Digital:</strong> D2C website checkout, BigBasket product page, Zepto/Blinkit cart</li>
+              <li><strong>Retargeting:</strong> Instagram/Meta ads with cart abandonment creative</li>
+              <li><strong>Trust signals:</strong> Certifications (FSSAI, non-GMO), "As seen in" press logos</li>
+              <li><strong>Physical:</strong> Store shelf placement — eye-level, premium section near oats</li>
+              <li><strong>Trigger:</strong> WhatsApp nudge from referral friend with code</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">😤</span>
+            <span class="card-title">Pain Points & Friction</span>
+            <div class="card-content"><ul>
+              <li>Checkout friction on mobile D2C site (slow load = high drop-off)</li>
+              <li>No CoD option alienates first-time buyers cautious of new brands</li>
+              <li>Price anchoring: local dalia at 1/4th the price feels hard to justify</li>
+              <li>No visible "why premium" narrative at point of purchase</li>
+              <li>Delivery timeline uncertainty vs instant Zepto gratification</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="delight-box">
+          <div class="delight-label">✨ Opportunities to Delight</div>
+          <div class="delight-content">Reduce checkout to <strong>under 3 taps on mobile</strong>. Add CoD for first-timers. Use <strong>cart abandonment WhatsApp</strong> (not just email) — India's cart recovery rate via WhatsApp is 4x email. A popup with "First order? Get 20% off" converts 12–18%. Add a "What makes ours different" accordion on the product page. Display a real sourcing story (e.g., "Stone-milled dalia from Rajasthan wheat farms"). <strong>Urgency triggers</strong> work: "Only 40 packs left" if true.</div>
+        </div>
+        <div class="metrics-row">
+          <div class="metrics-label">📊 Key Metrics to Track</div>
+          <div class="metrics-pills">
+            <span class="pill">Checkout conversion rate</span>
+            <span class="pill">Cart abandonment rate</span>
+            <span class="pill">First-order discount redemption</span>
+            <span class="pill">CoD vs prepaid split</span>
+            <span class="pill">Channel attribution (D2C vs MT)</span>
+            <span class="pill">Mobile checkout completion</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 4: ONBOARDING -->
+    <div class="stage-block stage-3" data-stage="3">
+      <div class="stage-header" onclick="toggleStage(this.parentElement)">
+        <span class="stage-number">04</span>
+        <span class="stage-emoji">📦</span>
+        <span class="stage-name">Onboarding</span>
+        <span class="stage-emotion-tag">Anxious · Hopeful</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+      <div class="stage-subtitle">"The box just arrived. This is my trial — it either becomes a habit or a regret."</div>
+      <div class="stage-body">
+        <div class="grid-6">
+          <div class="info-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Customer Actions & Thoughts</span>
+            <div class="card-content"><ul>
+              <li>Unboxes the pack — notices packaging quality immediately</li>
+              <li>Reads prep instructions — hopes it's genuinely quick</li>
+              <li>Makes first batch — evaluates taste, texture, time taken</li>
+              <li>Compares: "Is this better than my oats?" consciously</li>
+              <li>Posts an unboxing/breakfast story if packaging is photogenic</li>
+              <li>Receives order confirmation + WhatsApp recipe tips within 24 hrs</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <span class="card-title">Touchpoints</span>
+            <div class="card-content"><ul>
+              <li><strong>Physical:</strong> Packaging unboxing experience — box, insert card, QR code</li>
+              <li><strong>Digital:</strong> Order confirmation email, WhatsApp recipe message (Day 1)</li>
+              <li><strong>Content:</strong> QR → "Your first bowl" video (2 min), recipe booklet insert</li>
+              <li><strong>Community:</strong> Invite to Telegram/WhatsApp group for early customers</li>
+              <li><strong>Follow-up:</strong> Day 3 check-in message: "How was your first bowl?"</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">😤</span>
+            <span class="card-title">Pain Points & Friction</span>
+            <div class="card-content"><ul>
+              <li>First cook goes wrong — watery or sticky texture = brand abandonment</li>
+              <li>Generic "thanks for ordering" email — zero personality</li>
+              <li>No guidance on optimal cook time/ratio for different preferences</li>
+              <li>Packaging not Instagram-worthy = lost organic UGC opportunity</li>
+              <li>Day 7 with no follow-up = customer forgets the product exists</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="delight-box">
+          <div class="delight-label">✨ Opportunities to Delight</div>
+          <div class="delight-content">This is <strong>the most critical stage</strong> — 60% of D2C food churn happens before week 2. Design packaging as a "morning ritual object." Include a beautiful <strong>recipe insert card</strong> with 3 flavour variations (savory, sweet, spiced). Send a <strong>Day 1 WhatsApp</strong> with a 90-second "first bowl" video. Day 3: "Drop your bowl photo — we'll feature you." Day 7: surprise 10% off the next order for the customer cohort that hasn't reordered. The goal is to anchor a new morning habit before their oats muscle memory kicks back in.</div>
+        </div>
+        <div class="metrics-row">
+          <div class="metrics-label">📊 Key Metrics to Track</div>
+          <div class="metrics-pills">
+            <span class="pill">Day-7 retention rate</span>
+            <span class="pill">Recipe QR scan rate</span>
+            <span class="pill">WhatsApp open rate</span>
+            <span class="pill">UGC posts (unboxing, first bowl)</span>
+            <span class="pill">Day-14 reorder intent survey</span>
+            <span class="pill">NPS after first pack</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 5: ENGAGEMENT -->
+    <div class="stage-block stage-4" data-stage="4">
+      <div class="stage-header" onclick="toggleStage(this.parentElement)">
+        <span class="stage-number">05</span>
+        <span class="stage-emoji">🔄</span>
+        <span class="stage-name">Engagement</span>
+        <span class="stage-emotion-tag">Habituated · Satisfied</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+      <div class="stage-subtitle">"I'm on my 3rd pack. Dalia is just... what I eat now. But I'm open to being surprised."</div>
+      <div class="stage-body">
+        <div class="grid-6">
+          <div class="info-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Customer Actions & Thoughts</span>
+            <div class="card-content"><ul>
+              <li>Reorders without much deliberation — it's now a routine item</li>
+              <li>Tries new variants (if available) or searches for new recipes</li>
+              <li>Follows brand on Instagram — casually engages with content</li>
+              <li>Shares brand organically when friends ask "what's your breakfast?"</li>
+              <li>May participate in brand polls, challenges, or community posts</li>
+              <li>Starts noticing health benefits — energy levels, digestion</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <span class="card-title">Touchpoints</span>
+            <div class="card-content"><ul>
+              <li><strong>Digital:</strong> Instagram content feed, monthly recipe newsletter, WhatsApp broadcast</li>
+              <li><strong>Product:</strong> Pack inserts rotating each month with new recipes</li>
+              <li><strong>Community:</strong> "Dalia Morning Club" — private group, weekly challenges</li>
+              <li><strong>Subscription:</strong> Auto-replenish option with 5% discount, skip/pause controls</li>
+              <li><strong>Physical:</strong> Occasional pop-up events in Tier 1 cities</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">😤</span>
+            <span class="card-title">Pain Points & Friction</span>
+            <div class="card-content"><ul>
+              <li>Flavour fatigue — same product every day gets monotonous</li>
+              <li>No new product variants to stay excited about</li>
+              <li>If out-of-stock on preferred channel, buyer switches to oats temporarily</li>
+              <li>Brand communication becomes noise: too many promotional messages</li>
+              <li>No perceived progress in health — hard to attribute benefits to dalia</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="delight-box">
+          <div class="delight-label">✨ Opportunities to Delight</div>
+          <div class="delight-content">Introduce a <strong>"Morning Ritual" subscription</strong> with smart cadence (every 20 days, adjustable). Monthly recipe drops as a content series keep the brand fresh. Run a <strong>"30-Day Dalia Challenge"</strong> with health journaling — customers who complete it become brand advocates. Send a <strong>"You've eaten 50 bowls!"</strong> milestone card — quirky but memorable. Introduce a 2nd SKU (e.g., Dalia with Multigrain, or Dalia Khichdi variant) to expand the repertoire without losing the core customer.</div>
+        </div>
+        <div class="metrics-row">
+          <div class="metrics-label">📊 Key Metrics to Track</div>
+          <div class="metrics-pills">
+            <span class="pill">Purchase frequency (packs/month)</span>
+            <span class="pill">Subscription sign-up rate</span>
+            <span class="pill">Email/WA engagement rate</span>
+            <span class="pill">Community participation rate</span>
+            <span class="pill">Average order value trend</span>
+            <span class="pill">Variant trial rate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 6: LOYALTY -->
+    <div class="stage-block stage-5" data-stage="5">
+      <div class="stage-header" onclick="toggleStage(this.parentElement)">
+        <span class="stage-number">06</span>
+        <span class="stage-emoji">❤️</span>
+        <span class="stage-name">Loyalty & Advocacy</span>
+        <span class="stage-emotion-tag">Proud · Evangelical</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+      <div class="stage-subtitle">"I've converted 3 friends. I genuinely feel like this brand gets me."</div>
+      <div class="stage-body">
+        <div class="grid-6">
+          <div class="info-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Customer Actions & Thoughts</span>
+            <div class="card-content"><ul>
+              <li>Proactively recommends to friends, family, colleagues</li>
+              <li>Shares brand content in WhatsApp groups unprompted</li>
+              <li>Writes a detailed review on BigBasket/Amazon</li>
+              <li>Participates in brand community actively — shares recipes, photos</li>
+              <li>Identity alignment: "I'm a dalia person now" — part of their health persona</li>
+              <li>Provides product feedback directly to brand when asked</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <span class="card-title">Touchpoints</span>
+            <div class="card-content"><ul>
+              <li><strong>Digital:</strong> Referral program (personal code), UGC features on Instagram</li>
+              <li><strong>Community:</strong> "Founding Member" badge in community group</li>
+              <li><strong>Recognition:</strong> Brand features loyal customers' recipes in packaging</li>
+              <li><strong>Physical:</strong> Handwritten thank-you card on 6-month anniversary</li>
+              <li><strong>Exclusive:</strong> Early access to new variants, private founder calls</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">😤</span>
+            <span class="card-title">Pain Points & Friction</span>
+            <div class="card-content"><ul>
+              <li>Referral program too complicated — low redemption kills advocacy</li>
+              <li>Brand doesn't acknowledge loyalty — feels taken for granted</li>
+              <li>Quality fluctuation in a batch breaks trust catastrophically</li>
+              <li>Price increase without communication feels like a betrayal</li>
+              <li>Advocate refers a friend who has a bad experience — advocate shame</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="delight-box">
+          <div class="delight-label">✨ Opportunities to Delight</div>
+          <div class="delight-content">Make referrals <strong>stupid simple</strong>: one-tap WhatsApp share, ₹100 off for both parties. Feature loyal customers' recipes on packaging inserts (rotating quarterly) — this is extraordinary delight at zero marginal cost. Invite top advocates to a <strong>"Founding 100" private community</strong> with the founder. Send a "You've been with us 6 months" personalised card with a free pack. A loyal advocate in a Tier 1 city WhatsApp group is worth 10x a paid Meta ad impression. Protect them above all.</div>
+        </div>
+        <div class="metrics-row">
+          <div class="metrics-label">📊 Key Metrics to Track</div>
+          <div class="metrics-pills">
+            <span class="pill">NPS score (target 60+)</span>
+            <span class="pill">Referral rate</span>
+            <span class="pill">% revenue from referred customers</span>
+            <span class="pill">UGC volume per month</span>
+            <span class="pill">12-month retention rate</span>
+            <span class="pill">Advocate LTV vs non-advocate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 7: CHURN -->
+    <div class="stage-block stage-6" data-stage="6">
+      <div class="stage-header" onclick="toggleStage(this.parentElement)">
+        <span class="stage-number">07</span>
+        <span class="stage-emoji">🚨</span>
+        <span class="stage-name">Churn</span>
+        <span class="stage-emotion-tag">Disengaged · Drifting</span>
+        <span class="toggle-arrow">▼</span>
+      </div>
+      <div class="stage-subtitle">"I haven't thought about dalia in 3 weeks. My oats are back in the pantry."</div>
+      <div class="stage-body">
+        <div class="grid-6">
+          <div class="info-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Customer Actions & Thoughts</span>
+            <div class="card-content"><ul>
+              <li>Buys oats "just this once" when dalia runs out — then keeps buying oats</li>
+              <li>Stops opening brand WhatsApp messages</li>
+              <li>Removes brand from saved items on BigBasket</li>
+              <li>Travel, life event, or new diet trend disrupts routine</li>
+              <li>Price hike without explanation triggers conscious switch</li>
+              <li>Quality issue in one batch = "I knew it was too good to last"</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <span class="card-title">Early Warning Signals</span>
+            <div class="card-content"><ul>
+              <li>No purchase in 25+ days (normal cycle is 20 days)</li>
+              <li>WhatsApp message unread for 2+ weeks</li>
+              <li>Unsubscribe from newsletter</li>
+              <li>Subscription paused 2x in a row</li>
+              <li>No response to Day-3 check-in (early churn signal)</li>
+              <li>1-star or 2-star review submitted</li>
+            </ul></div>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">😤</span>
+            <span class="card-title">Root Causes</span>
+            <div class="card-content"><ul>
+              <li><strong>Routine disruption:</strong> Travel, work from office shift, new partner</li>
+              <li><strong>Flavour fatigue:</strong> No new variants; same product every day</li>
+              <li><strong>Perceived value:</strong> "Is ₹149 really worth it over ₹40 local dalia?"</li>
+              <li><strong>Quality slip:</strong> One inconsistent batch kills months of trust</li>
+              <li><strong>Competitive:</strong> Oats brand runs a 40% discount or new launch</li>
+              <li><strong>Life change:</strong> New diet (keto, intermittent fasting) eliminates breakfast</li>
+            </ul></div>
+          </div>
+        </div>
+        <div class="delight-box" style="border-color: var(--terracotta); background: rgba(181,82,42,0.06);">
+          <div class="delight-label" style="color: var(--terracotta);">🔁 Win-Back Playbook</div>
+          <div class="delight-content">Trigger a <strong>WhatsApp win-back at Day 25</strong> of inactivity: "We miss your mornings 🌾 — here's 25% off your next pack." Don't send more than 2 win-back messages; after that, move to a soft 6-month dormant re-engagement. Survey churned customers with a 2-question exit poll (what happened? would you return?). Use this data to fix the product, not just the marketing. Introduce a <strong>"pause, don't quit"</strong> subscription option. For quality-related churn: immediate replacement + handwritten apology from the founder is more effective than any discount.</div>
+        </div>
+        <div class="metrics-row">
+          <div class="metrics-label">📊 Key Metrics to Track</div>
+          <div class="metrics-pills">
+            <span class="pill">Monthly churn rate (target &lt;3%)</span>
+            <span class="pill">Days since last purchase cohort</span>
+            <span class="pill">Win-back campaign conversion</span>
+            <span class="pill">Exit survey completion rate</span>
+            <span class="pill">Churn reason distribution</span>
+            <span class="pill">Resurrection rate (6-month)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /stages-grid -->
+</div><!-- /main -->
+
+<div class="footer">
+  <p>Dalia Premium · Customer Journey Map · CX Strategy Framework · Pre-Launch Edition</p>
+</div>
+
+<script>
+  function toggleStage(block) {
+    block.classList.toggle('open');
+  }
+
+  // Intersection observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.stage-block').forEach(block => {
+    observer.observe(block);
+  });
+
+  // First block is already open and visible
+  document.querySelector('.stage-block').classList.add('visible');
+</script>
+</body>
+</html>
