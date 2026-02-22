@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8 D2C Brand Building Prompts — Free Resource</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --off-black: #111111;
+    --card-bg: #161616;
+    --border: rgba(255,255,255,0.07);
+    --accent: #E8C547;
+    --accent-dim: rgba(232,197,71,0.12);
+    --white: #F5F2EA;
+    --muted: rgba(245,242,234,0.4);
+    --muted2: rgba(245,242,234,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 48px 60px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  .hero-blob {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,197,71,0.06) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+    width: fit-content;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.05s ease forwards;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s ease forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 10vw, 120px);
+    line-height: 0.92;
+    color: var(--white);
+    max-width: 800px;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s ease forwards;
+  }
+  .hero h1 span { color: var(--accent); display: block; }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 480px;
+    margin-top: 24px;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s ease forwards;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s ease forwards;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-number { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--accent); line-height: 1; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .hero-divider { width: 1px; background: var(--border); align-self: stretch; }
+
+  /* SERIES BANNER */
+  .series-banner {
+    background: var(--accent-dim);
+    border-bottom: 1px solid rgba(232,197,71,0.15);
+    padding: 14px 48px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .series-dot {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .series-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .series-text span { color: rgba(232,197,71,0.55); }
+
+  /* PROMPTS SECTION */
+  .prompts-section { padding: 80px 48px; }
+
+  .prompts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .prompts-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 6vw, 72px); line-height: 0.95; }
+  .prompts-header h2 em { color: var(--accent); font-style: normal; }
+  .prompts-note { font-size: 13px; color: var(--muted); max-width: 240px; text-align: right; line-height: 1.6; }
+
+  .prompts-grid { display: flex; flex-direction: column; gap: 2px; }
+
+  /* UNLOCKED CARD */
+  .prompt-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+  .prompt-card:hover { border-color: rgba(232,197,71,0.25); }
+  .prompt-card.open { border-color: rgba(232,197,71,0.2); }
+
+  .prompt-header {
+    display: flex;
+    align-items: center;
+    padding: 22px 28px;
+    cursor: pointer;
+    gap: 20px;
+    user-select: none;
+  }
+
+  .prompt-number { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--muted2); line-height: 1; min-width: 36px; transition: color 0.25s; }
+  .prompt-card.open .prompt-number { color: var(--accent); }
+  .prompt-icon { font-size: 20px; min-width: 28px; }
+  .prompt-title { flex: 1; font-size: 15px; font-weight: 500; color: var(--white); }
+
+  .unlocked-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 4px 10px;
+    border: 1px solid rgba(232,197,71,0.3);
+    border-radius: 20px;
+    background: var(--accent-dim);
+    white-space: nowrap;
+  }
+
+  .prompt-toggle { font-size: 12px; color: var(--muted); transition: transform 0.3s; min-width: 16px; }
+  .prompt-card.open .prompt-toggle { transform: rotate(180deg); color: var(--accent); }
+
+  .prompt-body { display: none; padding: 0 28px 28px; }
+  .prompt-card.open .prompt-body { display: block; }
+
+  .prompt-description {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding: 20px 0;
+  }
+
+  .prompt-text-wrapper {
+    position: relative;
+    background: var(--off-black);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .prompt-text-wrapper::before {
+    content: 'PROMPT';
+    position: absolute;
+    top: 14px; left: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--muted2);
+  }
+  .prompt-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 1.75;
+    color: rgba(245,242,234,0.75);
+    padding: 40px 16px 16px;
+    white-space: pre-wrap;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 10px; right: 12px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(232,197,71,0.2);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .copy-btn:hover { background: var(--accent); color: var(--black); }
+  .copy-btn.copied { background: rgba(100,200,100,0.15); border-color: rgba(100,200,100,0.3); color: #7dcc7d; }
+
+  /* LOCKED CARD */
+  .locked-card {
+    background: rgba(255,255,255,0.015);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    overflow: visible;
+    position: relative;
+    cursor: default;
+    transition: border-color 0.25s;
+  }
+  .locked-card:hover { border-color: rgba(255,255,255,0.09); }
+
+  .locked-header {
+    display: flex;
+    align-items: center;
+    padding: 22px 28px;
+    gap: 20px;
+  }
+  .locked-number { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: rgba(255,255,255,0.07); line-height: 1; min-width: 36px; }
+  .locked-icon { font-size: 20px; min-width: 28px; opacity: 0.15; }
+  .locked-title { flex: 1; font-size: 15px; font-weight: 500; color: rgba(245,242,234,0.18); }
+  .locked-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(245,242,234,0.18);
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    background: #1A1A1A;
+    border: 1px solid rgba(232,197,71,0.25);
+    border-radius: 10px;
+    padding: 16px 28px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 10;
+    white-space: nowrap;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+  .locked-card:hover .tooltip {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .tooltip-reel {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .tooltip-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* DALIA CALLOUT */
+  .dalia-section { padding: 0 48px 80px; }
+  .dalia-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .dalia-card:hover { border-color: rgba(232,197,71,0.3); }
+  .dalia-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); }
+  .dalia-card-text { flex: 1; }
+  .dalia-card h2 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white); margin-bottom: 12px; line-height: 1.1; }
+  .dalia-card p { font-size: 14px; color: var(--muted); line-height: 1.75; max-width: 500px; }
+  .dalia-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .dpill { background: var(--accent-dim); border: 1px solid rgba(232,197,71,0.2); border-radius: 20px; padding: 5px 14px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--accent); }
+  .dalia-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--black);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .dalia-btn:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,197,71,0.3); }
+
+  /* FOOTER */
+  .footer { border-top: 1px solid var(--border); padding: 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--accent); letter-spacing: 1px; }
+  .footer-note { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .hero, .prompts-section, .dalia-section, .footer { padding-left: 24px; padding-right: 24px; }
+    .series-banner { padding: 12px 24px; }
+    .hero h1 { font-size: 56px; }
+    .dalia-card { flex-direction: column; }
+    .dalia-btn { width: 100%; justify-content: center; }
+    .prompts-header { flex-direction: column; align-items: flex-start; }
+    .prompts-note { text-align: left; }
+    .hero-stats { gap: 24px; }
+    .unlocked-badge { display: none; }
+    .tooltip { white-space: normal; width: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-blob"></div>
+  <a href="index.html" class="back-link">← Back to 12 McKinsey Prompts</a>
+  <div class="eyebrow">Building Dalia In Public · D2C Series</div>
+  <h1>8 Prompts To<span>Build Your D2C.</span></h1>
+  <p class="hero-sub">The 12 McKinsey prompts covered research and strategy. These 8 cover actually building — naming, packaging, launch, retention, community, and the investor pitch.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-number">8</span><span class="stat-label">D2C Prompts</span></div>
+    <div class="hero-divider"></div>
+    <div class="stat"><span class="stat-number">1</span><span class="stat-label">Unlocked So Far</span></div>
+    <div class="hero-divider"></div>
+    <div class="stat"><span class="stat-number">7</span><span class="stat-label">More Coming</span></div>
+  </div>
+</section>
+
+<div class="series-banner">
+  <span class="series-dot"></span>
+  <span class="series-text">New prompt unlocks with every reel · <span>Watch @thebhave to unlock them all</span></span>
+</div>
+
+<section class="prompts-section">
+  <div class="prompts-header reveal">
+    <h2>The <em>8</em><br>Prompts.</h2>
+    <p class="prompts-note">One prompt unlocks per reel. Watch the series to unlock them all.</p>
+  </div>
+
+  <div class="prompts-grid">
+
+    <!-- 01 UNLOCKED -->
+    <div class="prompt-card reveal open" onclick="togglePrompt(this)">
+      <div class="prompt-header">
+        <span class="prompt-number">01</span>
+        <span class="prompt-icon">✍️</span>
+        <span class="prompt-title">Brand Identity & Naming</span>
+        <span class="unlocked-badge">✓ Unlocked · Reel 43</span>
+        <span class="prompt-toggle">▼</span>
+      </div>
+      <div class="prompt-body">
+        <p class="prompt-description">Generates 10 brand name options — Hindi rooted, English, hybrid, founder-led — with full emotional rationale, tagline options, brand voice guide, and a complete positioning statement.</p>
+        <div class="prompt-text-wrapper">
+          <button class="copy-btn" onclick="copyPrompt(event,this)">Copy</button>
+          <div class="prompt-text">You are a brand strategist who has named and positioned 50+ D2C consumer brands in India. I need a complete brand identity for my product.
+
+Please provide:
+
+Brand Name Options:
+• Generate 10 name options across these styles:
+  — 2 Hindi/Sanskrit rooted names (authentic, cultural)
+  — 2 English names (clean, modern, premium)
+  — 2 hybrid names (Indian soul, global feel)
+  — 2 founder-led names (personal, story-driven)
+  — 2 category-redefining names (create a new mental slot)
+• For each name: meaning, emotional resonance, domain availability likelihood, trademark risk, and how it sounds in a WhatsApp voice message
+
+Brand Voice Guide:
+• Tone: How does the brand speak? (3 adjectives)
+• Language: Hinglish, English, or regional? Why?
+• What the brand always says vs never says
+• 5 sample social media captions in the brand voice
+• 1 sample founder WhatsApp message to a first customer
+
+Tagline Options:
+• 5 tagline options with rationale for each
+• Which tagline works best for: packaging, Instagram bio, investor deck
+
+Positioning Statement:
+• One sentence: For [customer], [brand] is the [category] that [unique benefit] because [reason to believe]
+
+My product: [DESCRIBE PRODUCT]
+My target customer: [DESCRIBE CUSTOMER IN DETAIL]
+Brands I admire the aesthetic of: [LIST 2-3 BRANDS]
+Price point: [YOUR PRICE]
+One thing I never want my brand to feel like: [DESCRIBE]</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 LOCKED -->
+    <div class="locked-card reveal">
+      <div class="locked-header">
+        <span class="locked-number">02</span>
+        <span class="locked-icon">📦</span>
+        <span class="locked-title">Packaging & Unboxing Experience Design</span>
+        <span class="locked-badge">🔒 Locked</span>
+      </div>
+      <div class="tooltip">
+        <span class="tooltip-reel">Unlocks with Reel 44</span>
+        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      </div>
+    </div>
+
+    <!-- 03 LOCKED -->
+    <div class="locked-card reveal">
+      <div class="locked-header">
+        <span class="locked-number">03</span>
+        <span class="locked-icon">🚀</span>
+        <span class="locked-title">D2C Launch Sequence — Day by Day</span>
+        <span class="locked-badge">🔒 Locked</span>
+      </div>
+      <div class="tooltip">
+        <span class="tooltip-reel">Unlocks with Reel 45</span>
+        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      </div>
+    </div>
+
+    <!-- 04 LOCKED -->
+    <div class="locked-card reveal">
+      <div class="locked-header">
+        <span class="locked-number">04</span>
+        <span class="locked-icon">💬</span>
+        <span class="locked-title">WhatsApp & Community Retention Strategy</span>
+        <span class="locked-badge">🔒 Locked</span>
+      </div>
+      <div class="tooltip">
+        <span class="tooltip-reel">Unlocks with Reel 46</span>
+        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      </div>
+    </div>
+
+    <!-- 05 LOCKED -->
+    <div class="locked-card reveal">
+      <div class="locked-header">
+        <span class="locked-number">05</span>
+        <span class="locked-icon">🤳</span>
+        <span class="locked-title">Influencer & Sampling Strategy</span>
+        <span class="locked-badge">🔒 Locked</span>
+      </div>
+      <div class="tooltip">
+        <span class="tooltip-reel">Unlocks with Reel 47</span>
+        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      </div>
+    </div>
+
+    <!-- 06 LOCKED -->
+    <div class="locked-card reveal">
+      <div class="locked-header">
+        <span class="locked-number">06</span>
+        <span class="locked-icon">🔄</span>
+        <span class="locked-title">Subscription & Retention Model Design</span>
+        <span class="locked-badge">🔒 Locked</span>
+      </div>
+      <div class="tooltip">
+        <span class="tooltip-reel">Unlocks with Reel 48</span>
+        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      </div>
+    </div>
+
+    <!-- 07 LOCKED -->
+    <div class="locked-card reveal">
+      <div class="locked-header">
+        <span class="locked-number">07</span>
+        <span class="locked-icon">🧑‍💼</span>
+        <span class="locked-title">Founder Personal Brand Playbook</span>
+        <span class="locked-badge">🔒 Locked</span>
+      </div>
+      <div class="tooltip">
+        <span class="tooltip-reel">Unlocks with Reel 49</span>
+        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      </div>
+    </div>
+
+    <!-- 08 LOCKED -->
+    <div class="locked-card reveal">
+      <div class="locked-header">
+        <span class="locked-number">08</span>
+        <span class="locked-icon">💼</span>
+        <span class="locked-title">Investor Pitch Narrative</span>
+        <span class="locked-badge">🔒 Locked</span>
+      </div>
+      <div class="tooltip">
+        <span class="tooltip-reel">Unlocks with Reel 50</span>
+        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DALIA CALLOUT -->
+<section class="dalia-section reveal">
+  <div class="dalia-card">
+    <div class="dalia-card-text">
+      <h2>See These Prompts Being Used Live — Dalia Premium Brand</h2>
+      <p>Every prompt in this pack is being run live on a real Indian D2C brand being built in public. Watch the journey unfold — each reel unlocks a new prompt and a new chapter of the brand.</p>
+      <div class="dalia-pills">
+        <span class="dpill">Customer Journey Map</span>
+        <span class="dpill">Financial Model</span>
+        <span class="dpill">McKinsey Strategy Deck</span>
+        <span class="dpill">Building In Public</span>
+      </div>
+    </div>
+    <a href="dalia_customer_journey_map.html" target="_blank" class="dalia-btn">View Live Example →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand">D2C Prompt Pack</div>
+  <div class="footer-note">Building Dalia In Public · @thebhave · New prompt every reel</div>
+</footer>
+
+<script>
+  function togglePrompt(card) { card.classList.toggle('open'); }
+
+  function copyPrompt(e, btn) {
+    e.stopPropagation();
+    const text = btn.nextElementSibling.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 40);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
