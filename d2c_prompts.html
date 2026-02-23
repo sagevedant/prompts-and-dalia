@@ -421,9 +421,9 @@
   <div class="hero-stats">
     <div class="stat"><span class="stat-number">8</span><span class="stat-label">D2C Prompts</span></div>
     <div class="hero-divider"></div>
-    <div class="stat"><span class="stat-number">1</span><span class="stat-label">Unlocked So Far</span></div>
+    <div class="stat"><span class="stat-number">2</span><span class="stat-label">Unlocked So Far</span></div>
     <div class="hero-divider"></div>
-    <div class="stat"><span class="stat-number">7</span><span class="stat-label">More Coming</span></div>
+    <div class="stat"><span class="stat-number">6</span><span class="stat-label">More Coming</span></div>
   </div>
 </section>
 
@@ -489,17 +489,54 @@ One thing I never want my brand to feel like: [DESCRIBE]</div>
       </div>
     </div>
 
-    <!-- 02 LOCKED -->
-    <div class="locked-card reveal">
-      <div class="locked-header">
-        <span class="locked-number">02</span>
-        <span class="locked-icon">📦</span>
-        <span class="locked-title">Packaging & Unboxing Experience Design</span>
-        <span class="locked-badge">🔒 Locked</span>
+    <!-- 02 UNLOCKED -->
+    <div class="prompt-card reveal" onclick="togglePrompt(this)">
+      <div class="prompt-header">
+        <span class="prompt-number">02</span>
+        <span class="prompt-icon">📦</span>
+        <span class="prompt-title">Packaging & Unboxing Experience Design</span>
+        <span class="unlocked-badge">✓ Unlocked · Reel 44</span>
+        <span class="prompt-toggle">▼</span>
       </div>
-      <div class="tooltip">
-        <span class="tooltip-reel">Unlocks with Reel 44</span>
-        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      <div class="prompt-body">
+        <p class="prompt-description">Designs the complete physical and sensory experience — front panel hierarchy, colour palette with emotional rationale, the Instagrammable element, unboxing sequence, insert card copy, and cost breakdown for first 500 units vs scale.</p>
+        <div class="prompt-text-wrapper">
+          <button class="copy-btn" onclick="copyPrompt(event,this)">Copy</button>
+          <div class="prompt-text">You are a D2C packaging designer and brand experience expert who has designed packaging for premium Indian consumer brands. I need a complete packaging and unboxing brief.
+
+My brand: [BRAND NAME AND POSITIONING]
+My price point: [PRICE PER UNIT]
+My target customer: [DESCRIBE IN DETAIL — AGE, CITY, LIFESTYLE, WHAT THEY CURRENTLY EAT]
+Brands I admire the aesthetic of: [LIST 2-3 BRANDS]
+My brand colours/mood: [DESCRIBE OR LIST HEX CODES IF YOU HAVE THEM]
+Budget for packaging per unit: [AMOUNT]
+
+Please provide:
+
+Primary Packaging:
+• Front panel: Hierarchy of information — what goes where and why
+• Back panel: What must be there (ingredients, claims, FSSAI, QR)
+• Side panels: Brand story, recipe, or social handle?
+• Typography direction: Font personality that matches brand positioning
+• Colour palette: Primary, secondary, accent — with emotional rationale
+• Material recommendation: Kraft, matte laminate, foil, or other — with cost implication
+• One design element that makes this pack Instagrammable
+
+Secondary Packaging:
+• What should someone feel when they see it at their door
+• Outer box copy: What's the first thing they read?
+• Unboxing sequence: Describe each layer of the opening experience
+• What makes them pause and photograph it
+
+Insert Card Design:
+• Size and material
+• Copy: What does it say?
+• The one line that makes them want to post about it
+
+Cost Sensitivity Check:
+• Which elements can be value-engineered without losing premium feel
+• Minimum viable packaging for first 500 units vs scale packaging</div>
+        </div>
       </div>
     </div>
 
