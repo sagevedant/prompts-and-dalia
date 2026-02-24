@@ -421,9 +421,9 @@
   <div class="hero-stats">
     <div class="stat"><span class="stat-number">8</span><span class="stat-label">D2C Prompts</span></div>
     <div class="hero-divider"></div>
-    <div class="stat"><span class="stat-number">2</span><span class="stat-label">Unlocked So Far</span></div>
+    <div class="stat"><span class="stat-number">3</span><span class="stat-label">Unlocked So Far</span></div>
     <div class="hero-divider"></div>
-    <div class="stat"><span class="stat-number">6</span><span class="stat-label">More Coming</span></div>
+    <div class="stat"><span class="stat-number">5</span><span class="stat-label">More Coming</span></div>
   </div>
 </section>
 
@@ -542,17 +542,61 @@ Cost Sensitivity Check:
       </div>
     </div>
 
-    <!-- 03 LOCKED -->
-    <div class="locked-card reveal">
-      <div class="locked-header">
-        <span class="locked-number">03</span>
-        <span class="locked-icon">🏭</span>
-        <span class="locked-title">Manufacturing, Sourcing & Unit Economics</span>
-        <span class="locked-badge">🔒 Locked</span>
+    <!-- 03 UNLOCKED -->
+    <div class="prompt-card reveal" onclick="togglePrompt(this)">
+      <div class="prompt-header">
+        <span class="prompt-number">03</span>
+        <span class="prompt-icon">🏭</span>
+        <span class="prompt-title">Manufacturing, Sourcing & Unit Economics</span>
+        <span class="unlocked-badge">✓ Unlocked · Reel 45</span>
+        <span class="prompt-toggle">▼</span>
       </div>
-      <div class="tooltip">
-        <span class="tooltip-reel">Unlocks with Reel 45</span>
-        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      <div class="prompt-body">
+        <p class="prompt-description">Maps every ingredient with exact grams per unit, sourcing locations across India, price benchmarks at 500 vs 5,000 units, three manufacturing paths, full COGS breakdown, FSSAI compliance roadmap, and negotiation tactics to cut your MOQ from 5,000 to 500.</p>
+        <a href="annam-manufacturing.html" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#C4622D;text-decoration:none;border:1px solid rgba(196,98,45,0.3);padding:8px 16px;border-radius:20px;background:rgba(196,98,45,0.08);transition:all 0.2s;" onmouseover="this.style.background='rgba(196,98,45,0.16)'" onmouseout="this.style.background='rgba(196,98,45,0.08)'">🏭 See This In Action On Annam →</a>
+        <div class="prompt-text-wrapper">
+          <button class="copy-btn" onclick="copyPrompt(event,this)">Copy</button>
+          <div class="prompt-text">You are a manufacturing consultant and supply chain strategist who has helped 20+ Indian D2C food and FMCG brands go from idea to first production run. I need a complete sourcing and manufacturing roadmap for my brand.
+
+My product: [DESCRIBE EXACTLY WHAT IT IS — ingredients, format, packaging type]
+My target price point: [SELLING PRICE]
+My target cost of goods: [MAX YOU CAN SPEND PER UNIT TO STAY PROFITABLE]
+My first batch size: [HOW MANY UNITS — 500 / 1000 / 5000]
+My city: [WHERE YOU ARE BASED]
+My packaging type: [POUCH / BOX / BOTTLE / JAR]
+
+Please provide:
+
+Raw Material Sourcing:
+• Every ingredient needed with exact quantity per unit
+• Where to source each ingredient in India — specific markets, platforms, wholesale suppliers
+• Price per kg at small batch vs large batch
+• Which ingredients have quality variance and how to check them
+• Shelf life implications of each ingredient choice
+
+Manufacturing Options:
+• Option 1: Make it yourself — equipment needed, space required, cost, realistic for first 500 units?
+• Option 2: Contract manufacturer — what to look for, how to find them, what questions to ask
+• Option 3: Co-packer — difference from contract manufacturer, when this makes more sense
+• Red flags: 3 things that tell you a manufacturer will destroy your brand
+
+Unit Economics:
+• Full cost breakdown per unit: raw material + packaging + labour + overhead
+• At what batch size does this become profitable
+• The one cost that most founders underestimate
+
+Compliance & Licensing:
+• What FSSAI license do I need and how long does it take
+• Labelling requirements I cannot skip
+• What happens if I skip compliance on first 500 units
+
+Negotiation:
+• How to negotiate MOQ down from what manufacturers quote
+• What leverage a small brand actually has
+• The one sentence that gets you a better price every time
+
+Present the full output as a structured document with clear headers, tables for cost breakdowns, and bullet points only — no paragraphs. Use my brand colours if specified.</div>
+        </div>
       </div>
     </div>
 
