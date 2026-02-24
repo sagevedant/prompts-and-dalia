@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annam — Manufacturing & Sourcing in Action · Prompt 03</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --off-black: #111111;
+    --card-bg: #161616;
+    --border: rgba(255,255,255,0.07);
+    --accent: #E8C547;
+    --accent-dim: rgba(232,197,71,0.12);
+    --white: #F5F2EA;
+    --muted: rgba(245,242,234,0.4);
+    --muted2: rgba(245,242,234,0.12);
+    --terracotta: #C4622D;
+    --terra-dim: rgba(196,98,45,0.12);
+    --forest: #2C4A35;
+    --forest-dim: rgba(44,74,53,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .hero {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 48px 60px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+  }
+
+  .hero-blob {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(196,98,45,0.07) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 40px;
+    transition: color 0.2s;
+    width: fit-content;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.05s ease forwards;
+  }
+  .back-link:hover { color: var(--accent); }
+
+  .prompt-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(232,197,71,0.2);
+    padding: 5px 14px;
+    border-radius: 20px;
+    width: fit-content;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.1s ease forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 100px);
+    line-height: 0.92;
+    color: var(--white);
+    max-width: 700px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s ease forwards;
+  }
+  .hero h1 span { color: var(--terracotta); display: block; }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 520px;
+    margin-top: 24px;
+    line-height: 1.75;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s ease forwards;
+  }
+
+  .hero-pills {
+    display: flex;
+    gap: 10px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s ease forwards;
+  }
+
+  .hero-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .hero-pill.terra { color: var(--terracotta); border-color: rgba(196,98,45,0.3); background: var(--terra-dim); }
+  .hero-pill.green { color: #5C8A6A; border-color: rgba(44,74,53,0.3); background: var(--forest-dim); }
+
+  .section { padding: 80px 48px; border-bottom: 1px solid var(--border); }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow::after { content: ''; width: 40px; height: 1px; background: rgba(232,197,71,0.4); }
+
+  /* STAT CARDS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color 0.25s;
+  }
+  .stat-card:hover { border-color: rgba(196,98,45,0.3); }
+  .stat-card.highlight { border-color: rgba(196,98,45,0.3); background: rgba(196,98,45,0.06); }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--terracotta);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-card.highlight .stat-number { color: var(--accent); }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* INGREDIENTS TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: #1A1A1A;
+  }
+
+  thead th {
+    padding: 14px 16px;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:hover { background: rgba(196,98,45,0.04); }
+  tbody tr:last-child { border-bottom: none; }
+
+  tbody td {
+    padding: 14px 16px;
+    vertical-align: top;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  td.item { color: var(--white); font-weight: 500; }
+  td.highlight { color: var(--accent); font-family: 'DM Mono', monospace; font-size: 12px; }
+  td.terra { color: var(--terracotta); font-family: 'DM Mono', monospace; font-size: 11px; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tag-high { background: rgba(196,98,45,0.15); color: var(--terracotta); }
+  .tag-med { background: rgba(232,197,71,0.12); color: #D4A96A; }
+  .tag-low { background: rgba(44,74,53,0.2); color: #5C8A6A; }
+
+  /* COST BREAKDOWN */
+  .cost-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 640px;
+  }
+
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cost-row:last-child { border-bottom: none; }
+  .cost-row.total {
+    background: rgba(196,98,45,0.08);
+    border-top: 1px solid rgba(196,98,45,0.2);
+  }
+
+  .cost-label { font-size: 13px; color: var(--muted); }
+  .cost-label.bold { color: var(--white); font-weight: 600; }
+  .cost-value { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--accent); }
+  .cost-value.big { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--terracotta); }
+
+  .margin-card {
+    background: linear-gradient(135deg, rgba(44,74,53,0.2), rgba(44,74,53,0.05));
+    border: 1px solid rgba(44,74,53,0.3);
+    border-radius: 14px;
+    padding: 32px;
+    margin-top: 16px;
+    max-width: 640px;
+  }
+
+  .margin-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: #5C8A6A;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .margin-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(92,138,106,0.7);
+  }
+
+  .margin-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 12px;
+    line-height: 1.7;
+  }
+
+  /* MANUFACTURING PATHS */
+  .paths-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .path-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+  .path-card:hover { border-color: rgba(232,197,71,0.2); }
+  .path-card.recommended { border-color: rgba(92,138,106,0.4); }
+
+  .path-head {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .path-icon { font-size: 24px; margin-bottom: 10px; display: block; }
+  .path-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .path-subtitle { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+  .path-subtitle.green { color: #5C8A6A; }
+  .path-subtitle.amber { color: #D4A96A; }
+  .path-subtitle.red { color: var(--terracotta); }
+
+  .path-body { padding: 16px 24px; }
+  .path-point {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+  }
+  .path-point:last-child { border-bottom: none; }
+  .path-point::before { content: '→'; color: var(--terracotta); font-size: 10px; flex-shrink: 0; margin-top: 2px; }
+
+  /* RED FLAGS */
+  .redflag-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .redflag-card {
+    background: rgba(196,98,45,0.06);
+    border: 1px solid rgba(196,98,45,0.2);
+    border-left: 4px solid var(--terracotta);
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+  }
+
+  .redflag-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+  }
+
+  .redflag-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .redflag-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* FSSAI */
+  .fssai-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .fssai-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.25s;
+  }
+  .fssai-card:hover { border-color: rgba(92,138,106,0.3); }
+  .fssai-card.current { border-color: rgba(92,138,106,0.4); background: rgba(44,74,53,0.1); }
+
+  .fssai-type { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #5C8A6A; margin-bottom: 12px; }
+  .fssai-cost { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+  .fssai-time { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .fssai-note { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* NEGOTIATION */
+  .nego-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .nego-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .nego-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .nego-point {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.6;
+    display: flex;
+    gap: 10px;
+  }
+  .nego-point:last-child { border-bottom: none; }
+  .nego-point::before { content: '→'; color: var(--terracotta); flex-shrink: 0; }
+
+  .killer-line {
+    background: rgba(232,197,71,0.08);
+    border: 1px solid rgba(232,197,71,0.2);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-top: 16px;
+  }
+
+  .killer-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .killer-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.5;
+  }
+
+  /* CTA */
+  .back-cta {
+    padding: 80px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border);
+  }
+
+  .back-cta-text h3 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white); margin-bottom: 8px; }
+  .back-cta-text p { font-size: 13px; color: var(--muted); }
+
+  .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--black);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .cta-btn:hover { background: var(--white); transform: translateY(-2px); }
+
+  .cta-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 13px;
+    padding: 14px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid rgba(232,197,71,0.3);
+    transition: all 0.2s;
+  }
+  .cta-btn-outline:hover { background: var(--accent-dim); }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--terracotta); font-style: italic; }
+  .footer-note { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .hero, .section, .back-cta, .footer { padding-left: 24px; padding-right: 24px; }
+    .stat-grid, .paths-grid, .fssai-grid, .nego-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-blob"></div>
+  <a href="d2c_prompts.html" class="back-link">← Back to D2C Prompts</a>
+  <div class="prompt-tag">Prompt 03 · Manufacturing & Sourcing · In Action</div>
+  <h1>This Is What<span>Prompt 03 Built.</span></h1>
+  <p class="hero-sub">We ran the Manufacturing, Sourcing & Unit Economics prompt on Annam. Here's the complete output — every ingredient mapped, three manufacturing paths, full cost breakdown, FSSAI roadmap, and the negotiation playbook.</p>
+  <div class="hero-pills">
+    <span class="hero-pill terra">First Batch · 500 Units</span>
+    <span class="hero-pill green">COGS · ₹44 / Unit</span>
+    <span class="hero-pill">70.5% Gross Margin</span>
+  </div>
+</section>
+
+<!-- KEY NUMBERS -->
+<section class="section">
+  <div class="section-eyebrow reveal">The Numbers That Matter</div>
+  <div class="stat-grid reveal">
+    <div class="stat-card highlight">
+      <div class="stat-number">₹44</div>
+      <div class="stat-label">Total cost to make one pack of Annam. Raw material + packaging + labour + overhead.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">₹14</div>
+      <div class="stat-label">Raw material cost per 250g unit. Broken wheat, jeera, ajwain, spices — all mapped.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">₹100</div>
+      <div class="stat-label">FSSAI Basic Registration. 7–15 working days. Most founders think it costs thousands.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INGREDIENTS -->
+<section class="section">
+  <div class="section-eyebrow reveal">Every Ingredient · Exact Grams · Real Sources</div>
+  <div class="table-wrap reveal">
+    <table>
+      <thead>
+        <tr>
+          <th>Ingredient</th>
+          <th>Qty / 250g Unit</th>
+          <th>Small Batch Source</th>
+          <th>Price / kg · Small</th>
+          <th>Price / kg · Bulk</th>
+          <th>Quality Risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="item">Broken Wheat (Dalia)</td>
+          <td class="highlight">195g</td>
+          <td>Khari Baoli Delhi · K.R. Market Bengaluru</td>
+          <td class="terra">₹40–55</td>
+          <td class="terra">₹25–35</td>
+          <td><span class="tag tag-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="item">Jeera (Cumin)</td>
+          <td class="highlight">3.5g</td>
+          <td>Unjha Mandi Gujarat — India's largest jeera market</td>
+          <td class="terra">₹300–400</td>
+          <td class="terra">₹220–280</td>
+          <td><span class="tag tag-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="item">Ajwain (Carom)</td>
+          <td class="highlight">2g</td>
+          <td>Rajkot / Mehsana wholesale via IndiaMART</td>
+          <td class="terra">₹150–200</td>
+          <td class="terra">₹100–140</td>
+          <td><span class="tag tag-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="item">Himalayan Pink Salt</td>
+          <td class="highlight">2g</td>
+          <td>Amazon Business / Flipkart Wholesale</td>
+          <td class="terra">₹80–120</td>
+          <td class="terra">₹40–60</td>
+          <td><span class="tag tag-low">Low</span></td>
+        </tr>
+        <tr>
+          <td class="item">Turmeric Powder</td>
+          <td class="highlight">1.5g</td>
+          <td>Erode Tamil Nadu — turmeric capital via APMC</td>
+          <td class="terra">₹180–250</td>
+          <td class="terra">₹120–160</td>
+          <td><span class="tag tag-high">High</span></td>
+        </tr>
+        <tr>
+          <td class="item">Black Pepper (coarse)</td>
+          <td class="highlight">1g</td>
+          <td>Wayanad / Idukki Kerala · APMC Calicut</td>
+          <td class="terra">₹600–800</td>
+          <td class="terra">₹420–560</td>
+          <td><span class="tag tag-med">Medium</span></td>
+        </tr>
+        <tr>
+          <td class="item">Hing (Asafoetida)</td>
+          <td class="highlight">0.3g</td>
+          <td>Ramdevbaba / Patanjali B2B supply</td>
+          <td class="terra">₹800–1,200</td>
+          <td class="terra">₹600–900</td>
+          <td><span class="tag tag-low">Low</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- COST BREAKDOWN -->
+<section class="section">
+  <div class="section-eyebrow reveal">Full Cost Breakdown · Per Unit · 500 Units</div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;" class="reveal">
+    <div class="cost-card">
+      <div class="cost-row">
+        <span class="cost-label">Raw Material</span>
+        <span class="cost-value">₹14</span>
+      </div>
+      <div class="cost-row">
+        <span class="cost-label">Packaging (kraft pouch + tape + insert)</span>
+        <span class="cost-value">₹22</span>
+      </div>
+      <div class="cost-row">
+        <span class="cost-label">Labour & Overhead</span>
+        <span class="cost-value">₹8</span>
+      </div>
+      <div class="cost-row total">
+        <span class="cost-label bold">Total COGS · Per Unit</span>
+        <span class="cost-value big">₹44</span>
+      </div>
+    </div>
+    <div>
+      <div class="margin-card">
+        <div class="margin-number">70.5%</div>
+        <div class="margin-label">Gross Margin at ₹149 Selling Price</div>
+        <div class="margin-desc">₹105 gross profit per unit. Zero funding. Healthy enough to survive Year 1 D2C and build to quick commerce viability.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANUFACTURING PATHS -->
+<section class="section">
+  <div class="section-eyebrow reveal">Three Paths To Production</div>
+  <div class="paths-grid reveal">
+    <div class="path-card recommended">
+      <div class="path-head">
+        <span class="path-icon">🏠</span>
+        <div class="path-title">Make It Yourself</div>
+        <div class="path-subtitle green">✓ Viable · First 500 Units</div>
+      </div>
+      <div class="path-body">
+        <div class="path-point">Weighing scale ₹1,500 + heat sealer ₹3,500 — total setup under ₹6,000</div>
+        <div class="path-point">4–5 hours to pack 500 units with two people</div>
+        <div class="path-point">Full recipe control — tweak masala ratios batch to batch</div>
+        <div class="path-point">Zero MOQ dependency — make exactly what you need</div>
+        <div class="path-point">Not scalable beyond 800 units without operator fatigue</div>
+      </div>
+    </div>
+    <div class="path-card">
+      <div class="path-head">
+        <span class="path-icon">🏭</span>
+        <div class="path-title">Contract Manufacturer</div>
+        <div class="path-subtitle amber">→ Scale Path · 1,000+ Units</div>
+      </div>
+      <div class="path-body">
+        <div class="path-point">They handle production, you handle sourcing verification</div>
+        <div class="path-point">MOQ typically 2,000–5,000 units — negotiate down (see below)</div>
+        <div class="path-point">Quality consistency is their responsibility</div>
+        <div class="path-point">Always do one unannounced visit before signing</div>
+        <div class="path-point">Ask for raw material traceability invoices</div>
+      </div>
+    </div>
+    <div class="path-card">
+      <div class="path-head">
+        <span class="path-icon">📦</span>
+        <div class="path-title">Co-Packer</div>
+        <div class="path-subtitle amber">→ You Supply, They Pack</div>
+      </div>
+      <div class="path-body">
+        <div class="path-point">You source and deliver all ingredients — they mix and pack</div>
+        <div class="path-point">More control over ingredient quality than full CM</div>
+        <div class="path-point">Lower MOQ than contract manufacturer typically</div>
+        <div class="path-point">Best for when recipe is locked and verified</div>
+        <div class="path-point">Check allergen cross-contamination protocols</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RED FLAGS -->
+<section class="section">
+  <div class="section-eyebrow reveal">3 Red Flags That Kill Brands</div>
+  <div class="redflag-grid reveal">
+    <div class="redflag-card">
+      <div class="redflag-num">Red Flag 01</div>
+      <div class="redflag-title">They Won't Let You Visit Unannounced</div>
+      <div class="redflag-desc">Any manufacturer requiring 48h+ notice before a facility visit is hiding something — hygiene lapses, unlicensed machinery, shared allergen lines. Rule: always do one surprise visit. If refused, walk away immediately.</div>
+    </div>
+    <div class="redflag-card">
+      <div class="redflag-num">Red Flag 02</div>
+      <div class="redflag-title">They Quote Before Seeing Your Recipe</div>
+      <div class="redflag-desc">A serious manufacturer quotes after understanding your moisture content, spice volumes, and packaging spec. If they give you a per-unit rate in the first 2 minutes — they're guessing. That guess gets revised upward after you've committed.</div>
+    </div>
+    <div class="redflag-card">
+      <div class="redflag-num">Red Flag 03</div>
+      <div class="redflag-title">No Traceability on Raw Material Sourcing</div>
+      <div class="redflag-desc">If a CM can't show invoices or certificates for their suppliers — you own the liability if a contamination complaint surfaces. In India's food market, adulteration lawsuits hit brands, not manufacturers.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FSSAI -->
+<section class="section">
+  <div class="section-eyebrow reveal">FSSAI Compliance · What Annam Needs</div>
+  <div class="fssai-grid reveal">
+    <div class="fssai-card current">
+      <div class="fssai-type">✓ Annam Right Now</div>
+      <div class="fssai-cost">₹100</div>
+      <div class="fssai-time">7–15 working days · Basic Registration</div>
+      <div class="fssai-note">For turnover up to ₹12L/yr. Apply at foscos.fssai.gov.in. Need Aadhaar + address proof. That's it.</div>
+    </div>
+    <div class="fssai-card">
+      <div class="fssai-type">→ After ₹12L Revenue</div>
+      <div class="fssai-cost">₹2–5K</div>
+      <div class="fssai-time">30–60 days · State License</div>
+      <div class="fssai-note">When Annam crosses ₹12L revenue OR moves to a co-packer or contract manufacturer.</div>
+    </div>
+    <div class="fssai-card">
+      <div class="fssai-type">→ After Investment / Scale</div>
+      <div class="fssai-cost">₹7.5K</div>
+      <div class="fssai-time">30–60 days · Central License</div>
+      <div class="fssai-note">Only needed when shipping across states at scale or after raising institutional investment.</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEGOTIATION -->
+<section class="section">
+  <div class="section-eyebrow reveal">Negotiation Playbook</div>
+  <div class="nego-grid reveal">
+    <div class="nego-card">
+      <div class="nego-title">How to Get MOQ Down</div>
+      <div class="nego-point">Ask for a "sample run" — frame it as quality validation, not cheapness</div>
+      <div class="nego-point">Offer 100% upfront cash payment — unlocks lower MOQ almost every time</div>
+      <div class="nego-point">Request split delivery — order 2,000 but take in 4 batches of 500</div>
+      <div class="nego-point">Bring a competitor quote — "I have a similar quote at slightly higher price but prefer to work with you"</div>
+      <div class="nego-point">Mention The Foundery pitch — positions Annam as growth-trajectory brand worth betting on</div>
+    </div>
+    <div class="nego-card">
+      <div class="nego-title">Leverage You Actually Have</div>
+      <div class="nego-point">You pay on time — most small food brands don't. This makes you instantly valuable.</div>
+      <div class="nego-point">You're a future account — "we scale to 10,000 units in 6 months"</div>
+      <div class="nego-point">Your design is premium — converters want Annam in their portfolio</div>
+      <div class="nego-point">You're flexible on timing — "fit us in when you have a short production slot"</div>
+      <div class="nego-point">You can move fast — idle machinery wants a quick decision-maker. Be that.</div>
+    </div>
+  </div>
+  <div class="killer-line reveal">
+    <div class="killer-label">⚑ The One Sentence That Gets You a Better Price Every Time</div>
+    <div class="killer-text">"We're building this brand for The Foundery — Nikhil Kamath and Kishore Biyani's platform. If this goes well, you're our manufacturing partner for the next 10,000 units."</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="back-cta reveal">
+  <div class="back-cta-text">
+    <h3>Try Prompt 03 On Your Brand</h3>
+    <p>Copy the blank template and map your own sourcing and unit economics.</p>
+  </div>
+  <div class="cta-buttons">
+    <a href="d2c_prompts.html" class="cta-btn">Get The Prompt →</a>
+    <a href="annam-packaging.html" class="cta-btn-outline">← Prompt 02 In Action</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">annam <em style="font-size:14px; color: #5C8A6A;">for modern living</em></div>
+  <div class="footer-note">Building Annam In Public · @thebhave · Prompt 03 Output</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
