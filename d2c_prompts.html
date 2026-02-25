@@ -421,9 +421,9 @@
   <div class="hero-stats">
     <div class="stat"><span class="stat-number">8</span><span class="stat-label">D2C Prompts</span></div>
     <div class="hero-divider"></div>
-    <div class="stat"><span class="stat-number">3</span><span class="stat-label">Unlocked So Far</span></div>
+    <div class="stat"><span class="stat-number">4</span><span class="stat-label">Unlocked So Far</span></div>
     <div class="hero-divider"></div>
-    <div class="stat"><span class="stat-number">5</span><span class="stat-label">More Coming</span></div>
+    <div class="stat"><span class="stat-number">4</span><span class="stat-label">More Coming</span></div>
   </div>
 </section>
 
@@ -600,17 +600,63 @@ Present the full output as a structured document with clear headers, tables for 
       </div>
     </div>
 
-    <!-- 04 LOCKED -->
-    <div class="locked-card reveal">
-      <div class="locked-header">
-        <span class="locked-number">04</span>
-        <span class="locked-icon">🚀</span>
-        <span class="locked-title">D2C Launch Sequence — Day by Day</span>
-        <span class="locked-badge">🔒 Locked</span>
+    <!-- 04 UNLOCKED -->
+    <div class="prompt-card reveal" onclick="togglePrompt(this)">
+      <div class="prompt-header">
+        <span class="prompt-number">04</span>
+        <span class="prompt-icon">💰</span>
+        <span class="prompt-title">Pricing Psychology & Strategy</span>
+        <span class="unlocked-badge">✓ Unlocked · Reel 46</span>
+        <span class="prompt-toggle">▼</span>
       </div>
-      <div class="tooltip">
-        <span class="tooltip-reel">Unlocks with Reel 46</span>
-        <span class="tooltip-sub">Follow @thebhave to get notified</span>
+      <div class="prompt-body">
+        <p class="prompt-description">Builds your complete pricing architecture — the psychology behind 9-endings vs 5-endings, price anchoring against competitors, margin breakdown across D2C, quick commerce and retail, pack size strategy, and a month-by-month price increase roadmap.</p>
+        <a href="annam-pricing.html" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#C4622D;text-decoration:none;border:1px solid rgba(196,98,45,0.3);padding:8px 16px;border-radius:20px;background:rgba(196,98,45,0.08);transition:all 0.2s;" onmouseover="this.style.background='rgba(196,98,45,0.16)'" onmouseout="this.style.background='rgba(196,98,45,0.08)'">💰 See This In Action On Annam →</a>
+        <div class="prompt-text-wrapper">
+          <button class="copy-btn" onclick="copyPrompt(event,this)">Copy</button>
+          <div class="prompt-text">You are a pricing strategist who has set pricing for 30+ Indian D2C consumer brands across food, wellness, and lifestyle categories. I need a complete pricing strategy for my brand.
+
+My product: [DESCRIBE EXACTLY WHAT IT IS]
+My cost of goods per unit: [EXACT COGS]
+My target customer: [DESCRIBE IN DETAIL]
+My competitors and their prices: [LIST 3-5 COMPETITORS AND PRICES]
+My distribution: [D2C / Quick Commerce / Retail]
+My brand positioning: [PREMIUM / MID / MASS]
+My brand colours: [HEX CODES OR DESCRIBE]
+
+Please provide:
+
+Price Anchoring:
+• What price makes my product feel premium without feeling inaccessible
+• How to use competitor pricing as an anchor in my favour
+• The psychological difference between 9-ending and 5-ending prices — which one for my brand and why
+• Should I price higher than I think I should? Make the case.
+
+Margin Architecture:
+• What gross margin do I need to survive first year D2C
+• What gross margin do I need to survive on quick commerce
+• What gross margin do I need to survive on retail shelf
+• At what price point does this brand become fundable
+
+Pack Size Strategy:
+• Should I launch one size or multiple
+• Starter pack vs full size — which converts better and why
+• Subscription discount — how much is too much, how much is too little
+• Bundle pricing — when does it make sense
+
+Competitor Positioning:
+• Where exactly does my price sit in the category map
+• Am I too cheap to be taken seriously
+• Am I too expensive to get trial
+• The one price change that would immediately improve conversion
+
+Price Increase Strategy:
+• When is the right time to raise prices
+• How to raise prices without losing customers
+• What to say to existing customers when you do
+
+Present output as a structured branded document — tables, short bullets, no paragraphs. Use my brand colours if specified.</div>
+        </div>
       </div>
     </div>
 
