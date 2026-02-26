@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annam — First 100 Customers · Prompt 05</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --card: #161616;
+    --border: rgba(255,255,255,0.07);
+    --terra: #C4622D;
+    --terra-dim: rgba(196,98,45,0.1);
+    --forest: #2C4A35;
+    --forest-dim: rgba(44,74,53,0.15);
+    --linen: #F5F0E8;
+    --wheat: #D4A96A;
+    --accent: #E8C547;
+    --accent-dim: rgba(232,197,71,0.1);
+    --muted: rgba(245,240,232,0.4);
+    --white: #F5F2EA;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--black); color:var(--white); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; }
+
+  /* HERO */
+  .hero { min-height:65vh; display:flex; flex-direction:column; justify-content:center; padding:80px 48px 60px; position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
+  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:60px 60px; mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 40%,transparent 100%); }
+  .hero-blob { position:absolute; width:500px; height:500px; background:radial-gradient(circle,rgba(196,98,45,0.07) 0%,transparent 70%); top:-100px; right:-100px; }
+  .back-link { display:inline-flex; align-items:center; gap:8px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); text-decoration:none; margin-bottom:40px; width:fit-content; transition:color 0.2s; }
+  .back-link:hover { color:var(--accent); }
+  .prompt-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); background:var(--accent-dim); border:1px solid rgba(232,197,71,0.2); padding:5px 14px; border-radius:20px; width:fit-content; margin-bottom:24px; }
+  .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(48px,8vw,100px); line-height:0.92; color:var(--white); max-width:750px; }
+  .hero h1 span { color:var(--terra); display:block; }
+  .hero-sub { font-size:15px; color:var(--muted); max-width:520px; margin-top:24px; line-height:1.75; }
+  .hero-pills { display:flex; gap:10px; margin-top:32px; flex-wrap:wrap; }
+  .pill { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; padding:6px 14px; border-radius:20px; border:1px solid var(--border); color:var(--muted); }
+  .pill.t { color:var(--terra); border-color:rgba(196,98,45,0.3); background:var(--terra-dim); }
+  .pill.g { color:#5C8A6A; border-color:rgba(44,74,53,0.3); background:var(--forest-dim); }
+
+  /* STATS */
+  .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border-bottom:1px solid var(--border); }
+  .stat-box { background:var(--black); padding:32px 28px; }
+  .stat-num { font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--terra); line-height:1; margin-bottom:6px; }
+  .stat-lbl { font-size:12px; color:var(--muted); line-height:1.5; }
+
+  /* SECTIONS */
+  .section { padding:80px 48px; border-bottom:1px solid var(--border); }
+  .eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:40px; display:flex; align-items:center; gap:12px; }
+  .eyebrow::after { content:''; width:40px; height:1px; background:rgba(232,197,71,0.4); }
+
+  /* COMMUNITY CARDS */
+  .community-stack { display:flex; flex-direction:column; gap:16px; }
+  .community-card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; display:grid; grid-template-columns:200px 1fr; transition:border-color 0.2s; }
+  .community-card:hover { border-color:rgba(196,98,45,0.3); }
+  .cc-sidebar { background:var(--forest); padding:28px 20px; display:flex; flex-direction:column; gap:12px; }
+  .cc-rank { font-family:'Bebas Neue',sans-serif; font-size:64px; color:rgba(212,169,106,0.2); line-height:0.85; }
+  .cc-platform { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--wheat); }
+  .cc-name { font-size:14px; font-weight:600; color:var(--linen); line-height:1.4; }
+  .cc-metrics { margin-top:auto; display:flex; flex-direction:column; gap:6px; }
+  .cc-metric { display:flex; justify-content:space-between; }
+  .cc-metric-lbl { font-family:'DM Mono',monospace; font-size:9px; color:rgba(245,240,232,0.35); text-transform:uppercase; letter-spacing:1px; }
+  .cc-metric-val { font-family:'DM Mono',monospace; font-size:9px; color:var(--wheat); }
+  .cc-body { padding:28px 32px; display:flex; flex-direction:column; gap:16px; }
+  .cc-section-lbl { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--terra); margin-bottom:4px; display:block; }
+  .cc-text { font-size:13px; color:var(--muted); line-height:1.7; }
+  .dm-box { background:rgba(44,74,53,0.15); border-left:3px solid var(--terra); border-radius:0 8px 8px 0; padding:14px 16px; font-family:'DM Mono',monospace; font-size:12px; line-height:1.7; color:rgba(245,240,232,0.7); white-space:pre-wrap; }
+  .kill-box { background:rgba(196,98,45,0.06); border:1px solid rgba(196,98,45,0.2); border-radius:8px; padding:12px 16px; font-size:12px; color:rgba(196,98,45,0.8); line-height:1.6; }
+  .kill-box::before { content:'⚠ KILL SWITCH: '; font-weight:700; font-size:10px; letter-spacing:1px; text-transform:uppercase; }
+  .conv-badge { display:inline-flex; align-items:center; gap:6px; background:var(--forest); color:var(--wheat); padding:5px 12px; border-radius:100px; font-family:'DM Mono',monospace; font-size:10px; width:fit-content; }
+
+  /* DM SECTION */
+  .dm-steps { display:flex; flex-direction:column; gap:16px; }
+  .dm-step { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .dm-step-head { padding:16px 24px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+  .dm-step-num { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--terra); line-height:1; }
+  .dm-step-title { font-size:14px; font-weight:600; color:var(--white); }
+  .dm-step-body { padding:20px 24px; }
+  .dm-quote { background:rgba(44,74,53,0.12); border-left:3px solid var(--terra); padding:14px 18px; border-radius:0 8px 8px 0; font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; color:var(--white); line-height:1.6; margin-bottom:12px; }
+  .dm-note { font-size:12px; color:var(--muted); line-height:1.7; }
+
+  /* WEEK PLAN */
+  .week-grid { display:flex; flex-direction:column; gap:2px; border-radius:12px; overflow:hidden; border:1px solid var(--border); }
+  .week-row { display:grid; grid-template-columns:100px 1fr 180px 140px; gap:0; background:var(--card); border-bottom:1px solid var(--border); }
+  .week-row:last-child { border-bottom:none; }
+  .week-row.header { background:#1A1A1A; }
+  .week-cell { padding:14px 16px; font-size:12px; color:var(--muted); border-right:1px solid var(--border); line-height:1.5; }
+  .week-cell:last-child { border-right:none; }
+  .week-cell.day { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--terra); text-transform:uppercase; font-weight:500; }
+  .week-cell.header-cell { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+  .week-cell.target { font-family:'DM Mono',monospace; font-size:11px; color:var(--wheat); }
+
+  /* SAMPLING */
+  .sampling-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .sample-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:28px; }
+  .sample-title { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  .sample-point { font-size:13px; color:var(--muted); padding:8px 0; border-bottom:1px solid var(--border); line-height:1.6; display:flex; gap:10px; }
+  .sample-point:last-child { border-bottom:none; }
+  .sample-point::before { content:'→'; color:var(--terra); flex-shrink:0; margin-top:2px; }
+
+  /* TRACKER */
+  .tracker-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .tracker-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:24px; }
+  .tracker-week { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+  .tracker-targets { display:flex; flex-direction:column; gap:8px; }
+  .tracker-target { display:flex; justify-content:space-between; align-items:center; }
+  .tracker-target-lbl { font-size:12px; color:var(--muted); }
+  .tracker-target-val { font-family:'DM Mono',monospace; font-size:12px; color:var(--wheat); }
+  .tracker-card.active { border-color:rgba(196,98,45,0.4); background:rgba(196,98,45,0.05); }
+
+  /* KEY INSIGHT */
+  .insight-card { background:linear-gradient(135deg,rgba(44,74,53,0.2),rgba(44,74,53,0.05)); border:1px solid rgba(44,74,53,0.3); border-radius:14px; padding:40px; margin-top:16px; }
+  .insight-num { font-family:'Bebas Neue',sans-serif; font-size:80px; color:#5C8A6A; line-height:0.85; margin-bottom:8px; }
+  .insight-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(92,138,106,0.6); margin-bottom:12px; }
+  .insight-text { font-family:'Cormorant Garamond',serif; font-size:24px; font-style:italic; color:var(--white); line-height:1.5; }
+
+  /* CTA */
+  .back-cta { padding:80px 48px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .back-cta h3 { font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--white); margin-bottom:8px; }
+  .back-cta p { font-size:13px; color:var(--muted); }
+  .cta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--accent); color:var(--black); font-weight:600; font-size:13px; padding:14px 24px; border-radius:8px; text-decoration:none; transition:all 0.2s; }
+  .cta-btn:hover { transform:translateY(-2px); }
+  .cta-btn-outline { display:inline-flex; align-items:center; gap:10px; background:transparent; color:var(--accent); font-size:13px; padding:14px 24px; border-radius:8px; text-decoration:none; border:1px solid rgba(232,197,71,0.3); transition:all 0.2s; }
+  .cta-btn-outline:hover { background:var(--accent-dim); }
+  .footer { border-top:1px solid var(--border); padding:32px 48px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-brand { font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--terra); font-style:italic; }
+  .footer-note { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:1px; }
+
+  .reveal { opacity:0; transform:translateY(16px); transition:opacity 0.5s ease,transform 0.5s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:768px) {
+    .hero,.section,.back-cta,.footer { padding-left:24px; padding-right:24px; }
+    .stats-row { grid-template-columns:1fr 1fr; }
+    .community-card { grid-template-columns:1fr; }
+    .sampling-grid,.tracker-grid { grid-template-columns:1fr; }
+    .week-row { grid-template-columns:80px 1fr; }
+    .week-cell:nth-child(3),.week-cell:nth-child(4) { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-blob"></div>
+  <a href="d2c_prompts.html" class="back-link">← Back to D2C Prompts</a>
+  <div class="prompt-tag">Prompt 05 · First 100 Customers · In Action</div>
+  <h1>Zero Budget.<span>100 Customers.</span></h1>
+  <p class="hero-sub">We ran the First 100 Customers prompt on Annam. Every channel is named. Every message is word for word. No ads. No budget. Just proximity to the right people.</p>
+  <div class="hero-pills">
+    <span class="pill t">₹0 Ad Budget</span>
+    <span class="pill g">30 Days · 100 Orders</span>
+    <span class="pill">Bengaluru · Mumbai · Delhi</span>
+  </div>
+</section>
+
+<div class="stats-row">
+  <div class="stat-box">
+    <div class="stat-num">5</div>
+    <div class="stat-lbl">Named communities where Annam's first customer is right now</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">60%</div>
+    <div class="stat-lbl">Reply rate from the opening DM — without mentioning the product</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">₹0</div>
+    <div class="stat-lbl">Ad spend required to reach first 100 customers</div>
+  </div>
+  <div class="stat-box">
+    <div class="stat-num">30</div>
+    <div class="stat-lbl">Days to 100 orders with 2 hours of founder outreach per day</div>
+  </div>
+</div>
+
+<!-- 5 COMMUNITIES -->
+<section class="section">
+  <div class="eyebrow reveal">Where The First Customer Is Right Now</div>
+  <div class="community-stack">
+
+    <div class="community-card reveal">
+      <div class="cc-sidebar">
+        <div class="cc-rank">01</div>
+        <div class="cc-platform">Reddit</div>
+        <div class="cc-name">r/bangalore — "tired of oats" threads</div>
+        <div class="cc-metrics">
+          <div class="cc-metric"><span class="cc-metric-lbl">Size</span><span class="cc-metric-val">1.1M members</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Profile match</span><span class="cc-metric-val">8–12%</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Conv. rate</span><span class="cc-metric-val">3–5% of replies</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Time to order</span><span class="cc-metric-val">5–10 days</span></div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <div>
+          <span class="cc-section-lbl">Why This Works</span>
+          <div class="cc-text">r/bangalore has 25-35 year old tech workers posting weekly about gym routines, healthy eating, and "tired of oats" rants. These people are problem-aware, brand-loyal to nothing, and waiting for a solution. Search "oats tired" or "breakfast boring" — threads from last 6 months have 200-800 upvotes. Comment authentically first. DM after 3+ comments.</div>
+        </div>
+        <div>
+          <span class="cc-section-lbl">Exact DM — After Commenting on a "Tired of Oats" Thread</span>
+          <div class="dm-box">Hey! Saw your post in the bangalore thread — genuinely felt that. I had the same exact problem six months ago, eating Saffola oats on autopilot every morning and dreading it. That's literally why I started making Annam — savory dalia with jeera and ajwain, ready in 5 minutes, actually tastes like something a human chose to eat. I'd love to send you a free 250g pack — zero pressure to post anything. Just want real feedback from someone who actually lifts. DM me your address?</div>
+        </div>
+        <div class="kill-box">Never mention Annam in a public subreddit comment until you have 100 karma there. Always DM, never comment-sell. One auto-ban removes everything.</div>
+        <div class="conv-badge">Go here first — most concentrated version of your exact buyer</div>
+      </div>
+    </div>
+
+    <div class="community-card reveal">
+      <div class="cc-sidebar">
+        <div class="cc-rank">02</div>
+        <div class="cc-platform">Instagram</div>
+        <div class="cc-name">@thewholetruthfoods comment section</div>
+        <div class="cc-metrics">
+          <div class="cc-metric"><span class="cc-metric-lbl">Followers</span><span class="cc-metric-val">245K+</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Profile match</span><span class="cc-metric-val">35–40%</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Conv. rate</span><span class="cc-metric-val">5–8% of DMs</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Time to order</span><span class="cc-metric-val">3–7 days</span></div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <div>
+          <span class="cc-section-lbl">Why This Works</span>
+          <div class="cc-text">People commenting on TWT posts are self-selected: label-readers, ingredient-conscious, skeptical of fake health food, already spending ₹100-200 per item. Every TWT comment section has 50-200 comments — a live, warm pool of your exact buyer. They follow TWT because they're bored of sweet health food. Also monitor: @yogabar @sattvic.foods @true.elements @happyhealthyindian</div>
+        </div>
+        <div>
+          <span class="cc-section-lbl">Exact DM — To Someone Who Commented on a TWT Post</span>
+          <div class="dm-box">Saw your comment on TWT's post — you mentioned the sweetness gets old after a while. Same thing that made me start building Annam. It's a savory dalia — jeera, ajwain, high protein, 5 mins. No jaggery, no honey, no flavoured protein powder smell. Want to try a pack? I'll send it across — just tell me what you actually think.</div>
+        </div>
+        <div class="kill-box">Do not follow the person before DMing. Instagram flags DM-then-follow as bot behavior. Never say "I'm launching a brand" — it reads as a pitch.</div>
+      </div>
+    </div>
+
+    <div class="community-card reveal">
+      <div class="cc-sidebar">
+        <div class="cc-rank">03</div>
+        <div class="cc-platform">In Person</div>
+        <div class="cc-name">Cult.fit HSR Layout + Koramangala 5B</div>
+        <div class="cc-metrics">
+          <div class="cc-metric"><span class="cc-metric-lbl">Active members</span><span class="cc-metric-val">6–8K per center</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Profile match</span><span class="cc-metric-val">60–70%</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Conv. rate</span><span class="cc-metric-val">10–15% with sample</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Time to order</span><span class="cc-metric-val">1–3 days</span></div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <div>
+          <span class="cc-section-lbl">Why This Works</span>
+          <div class="cc-text">Cult.fit HSR and Koramangala members are the exact customer: tech workers, 6-7am batch, eat breakfast right after. Go to 6:30am classes Monday/Wednesday/Friday. Chat with regulars you recognise. The post-workout nutrition conversation starts itself. Bring 3 sample pouches in your gym bag each day.</div>
+        </div>
+        <div>
+          <span class="cc-section-lbl">Exact Script — Post Class</span>
+          <div class="dm-box">Hey, random question — what do you eat after morning workouts? Like, do you have anything figured out? I've been testing this savory dalia I'm making — jeera ajwain, done in 5 minutes, actual protein. I've got an extra pack if you want to try it this week. Just want honest feedback from someone who trains.</div>
+        </div>
+        <div class="kill-box">Never distribute more than 5 packs at one center per week — Cult.fit staff will flag you as a distributor. One conversation at a time, always as a member, never as a brand.</div>
+      </div>
+    </div>
+
+    <div class="community-card reveal">
+      <div class="cc-sidebar">
+        <div class="cc-rank">04</div>
+        <div class="cc-platform">LinkedIn</div>
+        <div class="cc-name">Zerodha, Razorpay, Cred, Swiggy employees</div>
+        <div class="cc-metrics">
+          <div class="cc-metric"><span class="cc-metric-lbl">Combined size</span><span class="cc-metric-val">80K+ Bengaluru</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Profile match</span><span class="cc-metric-val">25–30%</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Conv. rate</span><span class="cc-metric-val">4–6% of DMs</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Time to order</span><span class="cc-metric-val">3–8 days</span></div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <div>
+          <span class="cc-section-lbl">Why This Works</span>
+          <div class="cc-text">Filter employees at Zerodha/Razorpay/Cred/Swiggy/Groww by SDE-2+, Product Managers, Designers in Bengaluru. These people follow Nikhil Kamath and Sahil Bloom. They're gym-literate, health-food curious, and respond to "I'm building something and want feedback" DMs because they respect founder hustle. Max 8 connection requests per day.</div>
+        </div>
+        <div>
+          <span class="cc-section-lbl">Exact LinkedIn Connection Note</span>
+          <div class="dm-box">Hey [Name] — building a savory dalia brand called Annam for people who go to the gym and are done with sweet breakfast food. Wanted to ask a Zerodha person: what does your post-workout breakfast actually look like on weekdays? Not pitching — genuinely trying to understand the routine before I get this into more hands.</div>
+        </div>
+        <div class="kill-box">Keep connection note under 180 characters — LinkedIn truncates at 200. Never paste the same note more than 10 times per day. Vary opening line by company.</div>
+      </div>
+    </div>
+
+    <div class="community-card reveal">
+      <div class="cc-sidebar">
+        <div class="cc-rank">05</div>
+        <div class="cc-platform">Slack</div>
+        <div class="cc-name">SaaSBoomi + iSPIRT Slack — #random</div>
+        <div class="cc-metrics">
+          <div class="cc-metric"><span class="cc-metric-lbl">Combined members</span><span class="cc-metric-val">14,000+</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Profile match</span><span class="cc-metric-val">30–40%</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Conv. rate</span><span class="cc-metric-val">8–12%</span></div>
+          <div class="cc-metric"><span class="cc-metric-lbl">Time to order</span><span class="cc-metric-val">2–5 days</span></div>
+        </div>
+      </div>
+      <div class="cc-body">
+        <div>
+          <span class="cc-section-lbl">Why This Works</span>
+          <div class="cc-text">SaaSBoomi and iSPIRT Slack are filled with SaaS founders, PMs, and early-stage builders who respect building-in-public narratives. These are influential early adopters — one person can ping 10 friends and generate group orders. Post in #random at 8:15am Tuesday or Thursday after waiting 48 hours as a new member.</div>
+        </div>
+        <div>
+          <span class="cc-section-lbl">Exact Slack Message</span>
+          <div class="dm-box">Slightly off-topic but relevant to those eating oats on autopilot every morning: I spent 6 months figuring out why I couldn't stick to a healthy breakfast routine. Built a savory dalia brand called Annam — jeera ajwain, 5 mins, actually tastes like food. Trying to find 30 people in Bengaluru who'll tell me if this is real or if I'm deluded. Free pack for the first 5 people who DM me. No strings.</div>
+        </div>
+        <div class="kill-box">Wait 48 hours before posting as a new member. Post once — never post twice in the same channel in the same week.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- THE DM -->
+<section class="section">
+  <div class="eyebrow reveal">The DM That Gets 60%+ Reply Rate</div>
+  <div class="dm-steps reveal">
+    <div class="dm-step">
+      <div class="dm-step-head">
+        <div class="dm-step-num">01</div>
+        <div class="dm-step-title">Opening Line — Never Mention the Product</div>
+      </div>
+      <div class="dm-step-body">
+        <div class="dm-quote">"Hey [Name] — random question: do you actually enjoy your breakfast or do you just eat it because it's healthy?"</div>
+        <div class="dm-note">Reply rate from cold DMs without personalization: ~8%. With this opener: ~55-65%. The opening line does all the heavy lifting. It proves you're human before they've read your second sentence. It touches the exact pain point — eating reluctantly — without mentioning a product.</div>
+      </div>
+    </div>
+    <div class="dm-step">
+      <div class="dm-step-head">
+        <div class="dm-step-num">02</div>
+        <div class="dm-step-title">The Pivot — First Mention of Annam</div>
+      </div>
+      <div class="dm-step-body">
+        <div class="dm-quote">"Actually — this is exactly why I started building something. I was in the same spot for two years, just eating the same boring breakfast and kind of resenting it. So I started making a savory dalia — jeera, ajwain, real protein, done in 5 minutes. It's called Annam. I'm very early — literally trying to find 30 people in Bengaluru who'll tell me if this is real."</div>
+        <div class="dm-note">Say "I started making" not "I started a brand." People engage with makers, not brand founders in DMs. "Very early — literally trying to find 30 people" creates scarcity and authenticity simultaneously.</div>
+      </div>
+    </div>
+    <div class="dm-step">
+      <div class="dm-step-head">
+        <div class="dm-step-num">03</div>
+        <div class="dm-step-title">Offering the Free Sample</div>
+      </div>
+      <div class="dm-step-body">
+        <div class="dm-quote">"Can I send you a pack? Zero strings. No review needed, no post needed, no tag needed. I just want someone who actually has a morning routine to tell me honestly if this works for them. Just tell me your address and I'll get it out this week."</div>
+        <div class="dm-note">"No post needed, no tag needed" removes the transactional feeling and 2x's the yes rate. People say yes to "can you help me learn" much more than "do you want free stuff."</div>
+      </div>
+    </div>
+    <div class="dm-step">
+      <div class="dm-step-head">
+        <div class="dm-step-num">04</div>
+        <div class="dm-step-title">Follow-Up If No Reply in 3 Days</div>
+      </div>
+      <div class="dm-step-body">
+        <div class="dm-quote">"Hey — just circling back. I have 3 packs left to send out this week. If you're not the right person for this, completely fine — just let me know. If you want to try it, just drop your address."</div>
+        <div class="dm-note">"If you're not the right person, completely fine" reduces social pressure and paradoxically increases reply rate. "3 packs left" creates micro-scarcity. Maximum 2 follow-ups per person. Never send a third.</div>
+      </div>
+    </div>
+    <div class="dm-step">
+      <div class="dm-step-head">
+        <div class="dm-step-num">05</div>
+        <div class="dm-step-title">Turning a Taster Into a Paying Customer</div>
+      </div>
+      <div class="dm-step-body">
+        <div class="dm-quote">"If you want to keep having it — it's ₹145 for 250g on our site, same pack. Most people order 2 at once because the shipping makes more sense that way."</div>
+        <div class="dm-note">Send this exactly 4-5 days after they receive the sample. Not 2 days (too pushy), not 7 days (they've forgotten). "Most people order 2 at once" is social proof + loss aversion without being manipulative.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEEK 1 PLAN -->
+<section class="section">
+  <div class="eyebrow reveal">Week 1 — Day by Day Action Plan</div>
+  <div class="week-grid reveal">
+    <div class="week-row header">
+      <div class="week-cell header-cell">Day</div>
+      <div class="week-cell header-cell">Exact Action</div>
+      <div class="week-cell header-cell">Platform / Where</div>
+      <div class="week-cell header-cell">Daily Target</div>
+    </div>
+    <div class="week-row">
+      <div class="week-cell day">Mon</div>
+      <div class="week-cell">6:30am Cult.fit HSR HIIT class. Post-class approach 2 regulars. Use Cult.fit script. Hand off 2 sample pouches. Get WhatsApp numbers. 8:45am post Reel — making dalia in kitchen, voiceover: "I spent 3 years eating Saffola oats and hating every bite."</div>
+      <div class="week-cell">Cult.fit HSR Sector 1 + Instagram @annam.food</div>
+      <div class="week-cell target">2 samples · 5+ DM inquiries from Reel</div>
+    </div>
+    <div class="week-row">
+      <div class="week-cell day">Tue</div>
+      <div class="week-cell">LinkedIn outreach batch 1. Go to Zerodha company page → filter Bengaluru SDE-2/Senior. Pick 8 active posters. Send connection request with exact note. Max 8 per day.</div>
+      <div class="week-cell">LinkedIn — Zerodha + Razorpay employees</div>
+      <div class="week-cell target">8 connection requests sent</div>
+    </div>
+    <div class="week-row">
+      <div class="week-cell day">Wed</div>
+      <div class="week-cell">6:30am Cult.fit Koramangala 5B Strength class — different centre, fresh pool. 2 samples. Get numbers. 8am SaaSBoomi Slack post in #random at 8:15am using exact Slack script.</div>
+      <div class="week-cell">Cult.fit Koramangala 5B + SaaSBoomi Slack</div>
+      <div class="week-cell target">2 samples · 1 Slack post · 8 LinkedIn requests</div>
+    </div>
+    <div class="week-row">
+      <div class="week-cell day">Thu</div>
+      <div class="week-cell">Reddit: search r/bangalore for "breakfast routine", "tired of oats", "gym meal prep" from last 30 days. Leave 3 genuine comments — no product mention. DM OP of most upvoted post after commenting. TWT comment section: DM 5 people who mentioned sweetness or boredom.</div>
+      <div class="week-cell">Reddit r/bangalore + Instagram TWT comments</div>
+      <div class="week-cell target">3 Reddit comments · 6 DMs sent</div>
+    </div>
+    <div class="week-row">
+      <div class="week-cell day">Fri</div>
+      <div class="week-cell">Follow-up day. Everyone DM'd Mon-Thu with no reply — send exact follow-up script. LinkedIn: check who accepted requests. DM accepted connections using conversation-to-sample script. Target: 3 sample agreements.</div>
+      <div class="week-cell">All platforms — follow-up sweep</div>
+      <div class="week-cell target">10+ follow-ups · 3 sample agreements</div>
+    </div>
+    <div class="week-row">
+      <div class="week-cell day">Sat</div>
+      <div class="week-cell">Film and post Reel 2: "What oats actually feels like at 7am vs what Annam feels like." Grim face with Saffola box → satisfaction eating Annam. Caption: "The problem isn't discipline. It's that oats is genuinely boring." Post 8:45am.</div>
+      <div class="week-cell">Instagram @annam.food</div>
+      <div class="week-cell target">1 Reel posted · 400+ reach</div>
+    </div>
+    <div class="week-row">
+      <div class="week-cell day">Sun</div>
+      <div class="week-cell">Review week. Count: samples sent, replies received, orders placed. If 0 orders — the issue is product positioning not channel. Rewrite the opening DM. If 1-3 orders — working, double outreach volume in Week 2.</div>
+      <div class="week-cell">Review + Week 2 planning</div>
+      <div class="week-cell target">Weekly review complete</div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLING -->
+<section class="section">
+  <div class="eyebrow reveal">Sampling Strategy</div>
+  <div class="sampling-grid reveal">
+    <div class="sample-card">
+      <div class="sample-title">Who Gets Free Samples</div>
+      <div class="sample-point">r/bangalore OPs who posted "tired of oats" content in last 30 days</div>
+      <div class="sample-point">People who commented on TWT/Yoga Bar posts mentioning sweetness or boredom</div>
+      <div class="sample-point">Cult.fit regulars you've spoken to more than once — not strangers</div>
+      <div class="sample-point">LinkedIn connections who replied to your DM with curiosity not politeness</div>
+      <div class="sample-point">Max 20 samples total in Week 1 — scarcity makes each one deliberate</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-title">What to Include in the Pack</div>
+      <div class="sample-point">1 × 250g Annam pouch — the full product, not a mini sample</div>
+      <div class="sample-point">Handwritten note: "Made this because oats stopped working for me. Tell me what you think — honestly." Sign it with your name, not the brand name.</div>
+      <div class="sample-point">One specific question on a card: "Did it feel like breakfast or did it feel like punishment?"</div>
+      <div class="sample-point">No discount code, no QR code, no CTA on the insert — this is a conversation not a funnel</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-title">What to Ask in Return</div>
+      <div class="sample-point">"Just tell me what you actually thought — one voice note or a message. That's it."</div>
+      <div class="sample-point">Never ask for a post, a tag, a story, or a review — it changes the relationship from collaborator to ambassador</div>
+      <div class="sample-point">If they offer to post — say "only if you genuinely liked it, please." That post will be 10× more credible.</div>
+    </div>
+    <div class="sample-card">
+      <div class="sample-title">How 1 Sample Becomes 3 Paying Customers</div>
+      <div class="sample-point">Day 1: Sample arrives. They message you. You reply immediately.</div>
+      <div class="sample-point">Day 4-5: Send the conversion message — "₹145, most people order 2."</div>
+      <div class="sample-point">Day 7: If they ordered — ask "anyone in your office who'd want to try it?" One referral ask per buyer.</div>
+      <div class="sample-point">That referral ask converts at 40%+ because it comes from someone who already bought, not from you cold.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKER -->
+<section class="section">
+  <div class="eyebrow reveal">30 Day Tracker</div>
+  <div class="tracker-grid reveal">
+    <div class="tracker-card active">
+      <div class="tracker-week">Week 1 — Activate</div>
+      <div class="tracker-targets">
+        <div class="tracker-target"><span class="tracker-target-lbl">Outreach sent</span><span class="tracker-target-val">50</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Replies received</span><span class="tracker-target-val">25+</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Samples dispatched</span><span class="tracker-target-val">15-20</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Orders</span><span class="tracker-target-val">1–5</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Watch number</span><span class="tracker-target-val">Reply rate %</span></div>
+      </div>
+    </div>
+    <div class="tracker-card">
+      <div class="tracker-week">Week 2 — Convert</div>
+      <div class="tracker-targets">
+        <div class="tracker-target"><span class="tracker-target-lbl">Outreach sent</span><span class="tracker-target-val">80</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Sample follow-ups</span><span class="tracker-target-val">All Week 1</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Samples dispatched</span><span class="tracker-target-val">20-25</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Orders</span><span class="tracker-target-val">10–20</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Watch number</span><span class="tracker-target-val">Sample → order %</span></div>
+      </div>
+    </div>
+    <div class="tracker-card">
+      <div class="tracker-week">Week 3 — Compound</div>
+      <div class="tracker-targets">
+        <div class="tracker-target"><span class="tracker-target-lbl">Referral asks</span><span class="tracker-target-val">All buyers</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">New channels</span><span class="tracker-target-val">LinkedIn batch 3</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Repeat orders</span><span class="tracker-target-val">Track Week 1 buyers</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Orders</span><span class="tracker-target-val">40–60</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Watch number</span><span class="tracker-target-val">Referral conversion</span></div>
+      </div>
+    </div>
+    <div class="tracker-card">
+      <div class="tracker-week">Week 4 — Close</div>
+      <div class="tracker-targets">
+        <div class="tracker-target"><span class="tracker-target-lbl">Total outreach</span><span class="tracker-target-val">250+</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Total samples</span><span class="tracker-target-val">60-80</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Repeat buyers</span><span class="tracker-target-val">Track carefully</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Orders</span><span class="tracker-target-val">100</span></div>
+        <div class="tracker-target"><span class="tracker-target-lbl">Watch number</span><span class="tracker-target-val">Repeat rate %</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-card reveal">
+    <div class="insight-num">40%</div>
+    <div class="insight-label">Change strategy trigger</div>
+    <div class="insight-text">If your reply rate drops below 40% in Week 1 — the channel is wrong, not the product. If reply rate is above 40% but orders are zero — the DM pivot is wrong. Fix one variable at a time.</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="back-cta reveal">
+  <div>
+    <h3>Try Prompt 05 On Your Brand</h3>
+    <p>Copy the template and map your own zero-budget acquisition playbook.</p>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;">
+    <a href="d2c_prompts.html" class="cta-btn">Get The Prompt →</a>
+    <a href="annam-pricing.html" class="cta-btn-outline">← Prompt 04 In Action</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">annam <em style="font-size:14px;color:#5C8A6A;">for modern living</em></div>
+  <div class="footer-note">Building Annam In Public · @thebhave · Prompt 05 Output</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
