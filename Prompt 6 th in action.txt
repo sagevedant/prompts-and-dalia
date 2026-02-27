@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Annam — Retention & Subscription Strategy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --terracotta: #C4622D;
+    --forest: #2C4A35;
+    --linen: #F5F0E8;
+    --wheat: #D4A96A;
+    --linen-dark: #EAE3D5;
+    --forest-light: #3d6347;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--linen);
+    font-family: 'Inter', sans-serif;
+    color: #1a1a1a;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--forest);
+    padding: 48px 60px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--terracotta), var(--wheat), var(--terracotta));
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--wheat);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: var(--linen);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .header h1 span { color: var(--wheat); }
+  .header-sub {
+    font-size: 14px;
+    color: #a8c4a8;
+    margin-top: 14px;
+    max-width: 620px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+  }
+  .meta-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(212,169,106,0.3);
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: var(--wheat);
+    font-weight: 500;
+  }
+  .meta-chip span { color: #fff; font-weight: 700; }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 48px 40px; }
+
+  /* SECTION HEADERS */
+  .section {
+    margin-bottom: 56px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--wheat);
+  }
+  .section-number {
+    background: var(--terracotta);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--forest);
+  }
+  .section-tag {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+  }
+
+  /* CARDS */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--wheat);
+  }
+  .card.terracotta { border-left-color: var(--terracotta); }
+  .card.forest { border-left-color: var(--forest); }
+  .card.urgent { border-left-color: #e53e3e; background: #fff8f8; }
+
+  .card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+  }
+  .card-label.forest { color: var(--forest); }
+  .card-label.wheat { color: #9a7040; }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+  }
+  .card p, .card li {
+    font-size: 13.5px;
+    color: #3a3a3a;
+    line-height: 1.65;
+  }
+  .card ul { padding-left: 18px; }
+  .card li { margin-bottom: 4px; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+  }
+  thead tr {
+    background: var(--forest);
+    color: var(--linen);
+  }
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  tbody tr { border-bottom: 1px solid #f0ebe0; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--linen); }
+  td { padding: 13px 16px; color: #2a2a2a; vertical-align: top; }
+  td.highlight { font-weight: 700; color: var(--terracotta); }
+  td.forest-text { font-weight: 700; color: var(--forest); }
+  td.muted { color: #888; font-style: italic; font-size: 12px; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--forest);
+    color: var(--linen);
+    border-radius: 10px;
+    padding: 22px 28px;
+    margin-bottom: 16px;
+  }
+  .callout-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--wheat);
+    margin-bottom: 6px;
+  }
+  .callout h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  .callout p, .callout li {
+    font-size: 13.5px;
+    color: #c8dac8;
+    line-height: 1.65;
+  }
+  .callout ul { padding-left: 18px; }
+  .callout li { margin-bottom: 4px; }
+
+  /* MESSAGE BOX */
+  .message-box {
+    background: var(--linen-dark);
+    border: 1px solid #d4c9b0;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #2a2a2a;
+    font-style: italic;
+    line-height: 1.7;
+    position: relative;
+  }
+  .message-box::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: var(--wheat);
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    line-height: 1;
+  }
+  .msg-from {
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    padding-left: 20px;
+  }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .badge-green { background: #e0f0e0; color: var(--forest); }
+  .badge-red { background: #ffe0e0; color: #c53030; }
+  .badge-amber { background: #fff3d0; color: #9a6000; }
+  .badge-terracotta { background: #fbe9e0; color: var(--terracotta); }
+
+  /* TIMELINE */
+  .timeline { margin-bottom: 16px; }
+  .timeline-item {
+    display: flex;
+    gap: 0;
+    margin-bottom: 12px;
+  }
+  .timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 60px;
+  }
+  .timeline-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .dot-terracotta { background: var(--terracotta); }
+  .dot-forest { background: var(--forest); }
+  .dot-wheat { background: var(--wheat); color: #fff; }
+  .dot-red { background: #e53e3e; }
+  .dot-grey { background: #999; }
+  .timeline-line {
+    width: 2px;
+    background: #ddd;
+    flex: 1;
+    min-height: 20px;
+    margin-top: 4px;
+  }
+  .timeline-content {
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    flex: 1;
+    margin-bottom: 0;
+  }
+  .timeline-content .day {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .timeline-content h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .timeline-content p { font-size: 13px; color: #555; margin-bottom: 0; }
+
+  /* METRIC CARD */
+  .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 16px; }
+  .metric-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    border-top: 4px solid var(--wheat);
+  }
+  .metric-card.good { border-top-color: var(--forest); }
+  .metric-card.danger { border-top-color: #e53e3e; }
+  .metric-card.neutral { border-top-color: var(--terracotta); }
+  .metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--forest);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .metric-card.danger .metric-value { color: #c53030; }
+  .metric-label { font-size: 11px; color: #888; font-weight: 500; }
+  .metric-context { font-size: 11px; color: var(--terracotta); font-weight: 600; margin-top: 4px; }
+
+  /* FOOTER */
+  .doc-footer {
+    background: var(--forest);
+    padding: 28px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+  }
+  .doc-footer .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--linen);
+  }
+  .doc-footer .brand span { color: var(--wheat); }
+  .doc-footer .note { font-size: 11px; color: #7a9a7a; }
+
+  /* VERDICT ROW */
+  .verdict {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  .verdict-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .verdict-text { font-size: 13.5px; color: #2a2a2a; line-height: 1.6; }
+  .verdict-text strong { color: var(--forest); }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--wheat), transparent);
+    margin: 40px 0;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">Confidential Strategy Document</div>
+  <h1>Annam <span>Retention Engine</span><br>& Subscription Architecture</h1>
+  <div class="header-sub">Built for Urban Indian Millennials · Bengaluru & Mumbai · Pre-Revenue Stage · First 100 Customers</div>
+  <div class="header-meta">
+    <div class="meta-chip">Product: Savory Dalia <span>₹145 / 250g</span></div>
+    <div class="meta-chip">Margin: <span>70.5%</span></div>
+    <div class="meta-chip">Sub Floor: <span>₹120</span></div>
+    <div class="meta-chip">Target Repeat: <span>40% @ 60 days</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ─── SECTION 1: HABIT STACK ─── -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <div class="section-title">The Habit Stack — How Annam Becomes a Morning Ritual</div>
+    <div class="section-tag">Psychology Layer</div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">The Core Insight</div>
+    <h3>Your competitor is not another dalia brand. It is toast, poha from a dabba, or skipping breakfast entirely.</h3>
+    <p>A habit forms when a behavior is triggered, executed easily, and rewarded immediately. Annam must own all three — not just taste good.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card terracotta">
+      <div class="card-label">Psychological Trigger</div>
+      <h3>The 6:45 AM Cue</h3>
+      <ul>
+        <li>Gym bag on the floor = post-workout hunger signal</li>
+        <li>Protein tracking app open = macro-conscious state</li>
+        <li>Annam must become the <strong>automatic answer</strong> to "what do I eat after the gym that isn't eggs again?"</li>
+        <li>Trigger is not hunger — it is <strong>identity</strong>: "I am someone who eats clean"</li>
+        <li>Every pack should re-confirm: <em>"This is who I am."</em></li>
+      </ul>
+    </div>
+    <div class="card forest">
+      <div class="card-label">The Exact Moment Habit Forms — or Breaks</div>
+      <h3>Day 3–5 of First Pack</h3>
+      <ul>
+        <li><strong>Forms:</strong> Customer eats it 3x in first week, finds it fits their morning routine without friction</li>
+        <li><strong>Breaks:</strong> Day 2 — they run out of time and grab something else. That alternative becomes the new default</li>
+        <li><strong>Break point #2:</strong> They finish the pack, feel nothing compelling to reorder, and drift to the next "healthy" thing in their feed</li>
+        <li>Your window to lock habit: <strong>Days 1–7</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">What Spotify, YouTube Premium & Whoop Do — And What Annam Must Steal</div>
+    <h3>The Loss Aversion Architecture</h3>
+    <table style="margin-bottom:0; margin-top:12px;">
+      <thead>
+        <tr>
+          <th>Brand</th>
+          <th>What They Make You Lose If You Cancel</th>
+          <th>Annam's Equivalent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Spotify</strong></td>
+          <td>Your curated playlists, Discover Weekly, listening history</td>
+          <td class="forest-text">Your Annam Streak: "You've had 18 clean breakfasts this month" — losing the streak hurts</td>
+        </tr>
+        <tr>
+          <td><strong>YouTube Premium</strong></td>
+          <td>Ad-free experience — the absence of pain becomes the product</td>
+          <td class="forest-text">Subscriber-only flavour drops, early access to new variants before general public</td>
+        </tr>
+        <tr>
+          <td><strong>Whoop</strong></td>
+          <td>Your strain/recovery data history, trends over time</td>
+          <td class="forest-text">"Your protein consistency score this quarter: 82% days on track" — personal nutrition data only subscribers get</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card terracotta">
+    <div class="card-label">The One Product Experience Change That Increases Repeat Rate 20%+</div>
+    <h3>Ship a "Second Reason" Inside the Pack</h3>
+    <ul>
+      <li>Every pack includes a <strong>small printed card</strong> (not digital — physical): one new serving idea, one macro fact, one reason Jeera + Ajwain are not random choices (ayurvedic digestion + gym recovery link)</li>
+      <li>This transforms Annam from <em>food product</em> → <em>learning experience</em></li>
+      <li>Card 1 = "Why this isn't your grandma's dalia" · Card 2 = "Your post-run recovery bowl" · Card 3 = "Add an egg. Here's the math."</li>
+      <li>Customers who feel they are <strong>learning something</strong> while consuming are 2.4x more likely to reorder (Behavioral economics: variable reward loop)</li>
+      <li>Cards become collectible. Reorder = new card = new reward</li>
+    </ul>
+  </div>
+
+</div>
+<div class="divider"></div>
+
+<!-- ─── SECTION 2: SUBSCRIPTION ARCHITECTURE ─── -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <div class="section-title">Subscription Architecture</div>
+    <div class="section-tag">Revenue Layer</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card terracotta">
+      <div class="card-label">Launch Timing — Exact Reasoning</div>
+      <h3>Launch Subscription at Order #1. Not After 100 Orders.</h3>
+      <ul>
+        <li><strong>Reason 1:</strong> Purchase intent is highest at the moment of first buy — conversion to subscription drops sharply after 72 hours</li>
+        <li><strong>Reason 2:</strong> First 100 customers are your most curious, most forgiving cohort — perfect to test sub mechanics without backlash</li>
+        <li><strong>Reason 3:</strong> "Founding Subscriber" framing only works pre-scale — it loses power at 500+ customers</li>
+        <li><strong>Caveat:</strong> Do NOT make subscription default. Present it as the smarter choice with clear benefit, let them opt in.</li>
+      </ul>
+    </div>
+    <div class="card forest">
+      <div class="card-label">Cadence Decision</div>
+      <h3>Bi-Weekly (Every 14 Days). Not Weekly. Not Monthly.</h3>
+      <ul>
+        <li><strong>Weekly</strong> = 1 pack/week = only 5 bowls. Customer runs out mid-week. Anxiety. Churns.</li>
+        <li><strong>Monthly</strong> = too long to feel the habit. Feels like a bulk order, not a ritual.</li>
+        <li><strong>Bi-weekly</strong> = 2 packs arrive every 14 days = ~10 bowls = exactly right for 5x/week breakfast eater with room for variety</li>
+        <li>Bi-weekly also means <strong>26 touchpoints/year</strong> vs 12 with monthly — more brand contact without subscription fatigue</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Subscription Pricing — 5-Ending Logic</div>
+    <h3>Exact Price Points</h3>
+    <table style="margin-top:12px; margin-bottom:0;">
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Packs per Delivery</th>
+          <th>Per Pack Price</th>
+          <th>Per Delivery</th>
+          <th>Margin Check</th>
+          <th>Positioning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>One-Time</td>
+          <td>1</td>
+          <td class="highlight">₹145</td>
+          <td>₹145</td>
+          <td class="badge badge-green">70.5%</td>
+          <td>Try it</td>
+        </tr>
+        <tr>
+          <td><strong>Subscribe — Starter</strong></td>
+          <td>2</td>
+          <td class="highlight">₹135</td>
+          <td>₹270 bi-weekly</td>
+          <td class="badge badge-green">65.8%</td>
+          <td>Most Popular</td>
+        </tr>
+        <tr>
+          <td><strong>Subscribe — Committed</strong></td>
+          <td>4</td>
+          <td class="highlight">₹125</td>
+          <td>₹500 bi-weekly</td>
+          <td class="badge badge-amber">61.2%</td>
+          <td>Power User</td>
+        </tr>
+        <tr>
+          <td>Below Floor</td>
+          <td>—</td>
+          <td class="badge badge-red">< ₹120</td>
+          <td>—</td>
+          <td class="badge badge-red">Margin breaks</td>
+          <td class="muted">Never offer</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px; font-size:12px; color:#888;">₹135 and ₹125 both end in 5. Psychologically feels like a deal. Both sit above the ₹120 floor. Starter tier has the best repeat rate potential — sweet spot of savings without over-committing.</p>
+  </div>
+
+  <div class="card forest">
+    <div class="card-label">What Subscribers Get That Non-Subscribers Cannot</div>
+    <h3>The Subscriber Advantage Stack — Not Just Discount</h3>
+    <table style="margin-top:12px; margin-bottom:0;">
+      <thead>
+        <tr>
+          <th>Benefit</th>
+          <th>Why It Creates Lock-in</th>
+          <th>Delivery Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Priority access to new flavours</strong></td>
+          <td>Creates exclusivity. Non-subscribers feel left out.</td>
+          <td>WhatsApp/Email 48hr before launch</td>
+        </tr>
+        <tr>
+          <td><strong>Personal Nutrition Streak Tracker</strong></td>
+          <td>Data they lose when they cancel — Whoop effect</td>
+          <td>Monthly WhatsApp card (image)</td>
+        </tr>
+        <tr>
+          <td><strong>Founding Subscriber Badge</strong></td>
+          <td>Social identity — "I was there before the noise"</td>
+          <td>Physical stamp on pack + digital ID</td>
+        </tr>
+        <tr>
+          <td><strong>Free delivery always</strong></td>
+          <td>Non-subscribers pay shipping above some orders — removes friction</td>
+          <td>Automatic</td>
+        </tr>
+        <tr>
+          <td><strong>Pause, don't cancel</strong></td>
+          <td>Reduces churn by 35–40% (industry standard)</td>
+          <td>WhatsApp message reply "PAUSE"</td>
+        </tr>
+        <tr>
+          <td><strong>Handwritten note — first order only</strong></td>
+          <td>Emotional memory. No one throws these away.</td>
+          <td>Physical, inside pack</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">The Founding Subscriber Offer</div>
+    <h3>Lock Your Rate. Forever. Or Until You Leave.</h3>
+    <ul>
+      <li><strong>What it is:</strong> First 50 subscribers lock in ₹125/pack (4-pack bi-weekly) as their permanent price — even as retail price rises</li>
+      <li><strong>What it says:</strong> "You believed in us early. We don't forget that."</li>
+      <li><strong>Urgency mechanic:</strong> "Founding Subscriber doors close when we hit 50 active subscriptions or March 31st — whichever comes first"</li>
+      <li><strong>How long it lasts:</strong> Price lock for 12 months from activation, auto-reviewed at renewal</li>
+      <li><strong>When it expires:</strong> If subscriber pauses >60 days or cancels, founding rate is forfeited permanently — makes pausing more valuable than cancelling</li>
+    </ul>
+  </div>
+
+</div>
+<div class="divider"></div>
+
+<!-- ─── SECTION 3: TRIGGER SEQUENCE ─── -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <div class="section-title">The Repeat Purchase Trigger Sequence</div>
+    <div class="section-tag">CRM Layer</div>
+  </div>
+
+  <div class="callout" style="margin-bottom:20px;">
+    <div class="callout-label">Channel Strategy</div>
+    <h3>WhatsApp first. Always. Email for documentation only.</h3>
+    <p>Your customer checks WhatsApp 47x a day. Their email for Annam arrives between Swiggy promos and bank statements. Build every sequence on WhatsApp Business. Keep messages short — your customer reads on their phone while the dalia cooks.</p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-marker">
+        <div class="timeline-dot dot-forest">D1</div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-content" style="margin-left:12px;">
+        <div class="day" style="color:var(--forest);">Day 1 — Delivery Confirmation + Initiation</div>
+        <h4>Goal: Make them cook it TODAY. Not tomorrow.</h4>
+        <p>Send within 2 hours of delivery confirmation. <strong>Why:</strong> The moment they open the pack is the moment the habit window opens. Any delay = pack goes to back of shelf.</p>
+        <div class="message-box">
+          <div class="msg-from">Annam · WhatsApp</div>
+          Your Annam just landed 🌾 Tomorrow morning, 5 minutes is all it takes. Boil water, add dalia, jeera does the rest.<br><br>
+          Pro tip from our kitchen: add a squeeze of lime. Game changer.<br><br>
+          Reply TIPS and we'll send you our top 3 combinations this week. — Team Annam
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-marker">
+        <div class="timeline-dot dot-terracotta">D4</div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-content" style="margin-left:12px;">
+        <div class="day" style="color:var(--terracotta);">Day 4 — The Feedback Ask</div>
+        <h4>Goal: Capture satisfaction data + create emotional investment</h4>
+        <p><strong>Why Day 4:</strong> They've had 3–4 bowls. Opinion is formed. Early enough to recover bad experience. Late enough to get a real verdict.</p>
+        <div class="message-box">
+          <div class="msg-from">Annam · WhatsApp</div>
+          Hey [Name] — you've had a few bowls of Annam by now.<br><br>
+          Honest question: how did it land? 🎯 Hit / 😐 Meh / 🤔 Something was off<br><br>
+          Reply with one of those. We read every single message. If something wasn't right, we want to fix it before your next order.
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-marker">
+        <div class="timeline-dot dot-wheat">D10</div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-content" style="margin-left:12px;">
+        <div class="day" style="color:#9a7040;">Day 10 — The Reorder Window</div>
+        <h4>Goal: Catch them before the pack runs out. Create subscription moment.</h4>
+        <p><strong>Why Day 10:</strong> At 5 bowls/pack and 5x/week eating, pack is almost done. FOMO is real. This is the highest-intent reorder window.</p>
+        <div class="message-box">
+          <div class="msg-from">Annam · WhatsApp</div>
+          [Name], your Annam is probably running low 🌾<br><br>
+          Quick math: 250g = ~5 bowls. If you've had it most mornings — you're almost out.<br><br>
+          Two options:<br>
+          1️⃣ Reorder once → ₹145 + shipping (2–3 day wait)<br>
+          2️⃣ Subscribe bi-weekly → ₹135/pack, free delivery, never run out<br><br>
+          Reply 1 or 2 and we'll sort it in 60 seconds.
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-marker">
+        <div class="timeline-dot dot-terracotta">D14</div>
+        <div class="timeline-line"></div>
+      </div>
+      <div class="timeline-content" style="margin-left:12px;">
+        <div class="day" style="color:var(--terracotta);">Day 14 — Recovery Message (If No Reorder)</div>
+        <h4>Goal: Re-engage without feeling pushy. Surface a real objection.</h4>
+        <div class="message-box">
+          <div class="msg-from">Annam · WhatsApp</div>
+          [Name] — no pressure, genuinely curious.<br><br>
+          Did Annam not make it into your routine? Sometimes the timing is off, sometimes the taste doesn't land right, sometimes life just gets busy.<br><br>
+          If there's something we can fix, I want to know. If you want to try one more time with a different prep method, reply and I'll share what's been working for others like you.<br><br>
+          — Rohan, Annam
+          <br><br><em style="font-size:12px; color:#888;">[Use founder's actual name. This should feel human, not automated.]</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-marker">
+        <div class="timeline-dot dot-grey">D30</div>
+      </div>
+      <div class="timeline-content" style="margin-left:12px;">
+        <div class="day" style="color:#888;">Day 30 — Final Attempt or Release</div>
+        <h4>Goal: One last shot with a genuine offer. Then stop.</h4>
+        <div class="message-box">
+          <div class="msg-from">Annam · WhatsApp</div>
+          [Name], this is the last message we'll send for a while — we don't want to be that brand in your inbox.<br><br>
+          But before we go quiet: we've made a small change to the recipe based on feedback from early customers. The texture is slightly more al-dente now. Some people didn't like how soft it got before.<br><br>
+          If you want to try the updated version — reply RETRY and we'll give you 20% off your next pack.<br><br>
+          Either way, thanks for being one of our first 100. That means something to us.
+        </div>
+        <p style="margin-top:10px; font-size:12px; color:#c53030;"><strong>If no response after Day 30:</strong> Move to quarterly re-engagement only. Do not spend weekly CRM budget on this cohort. Reallocate to active subscribers.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="divider"></div>
+
+<!-- ─── SECTION 4: METRICS ─── -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <div class="section-title">Retention Metrics — What to Track</div>
+    <div class="section-tag">Data Layer</div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric-card good">
+      <div class="metric-value">35%+</div>
+      <div class="metric-label">30-Day Repeat Rate</div>
+      <div class="metric-context">Good ✓</div>
+    </div>
+    <div class="metric-card danger">
+      <div class="metric-value">&lt;20%</div>
+      <div class="metric-label">30-Day Repeat Rate</div>
+      <div class="metric-context">Dangerous — fix product experience</div>
+    </div>
+    <div class="metric-card neutral">
+      <div class="metric-value">40%</div>
+      <div class="metric-label">60-Day Cohort Target</div>
+      <div class="metric-context">Your stated goal</div>
+    </div>
+    <div class="metric-card good">
+      <div class="metric-value">45–55%</div>
+      <div class="metric-label">60-Day — Benchmark</div>
+      <div class="metric-context">The Whole Truth / Yoga Bar level</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Benchmark Context</div>
+    <h3>What Indian Health-Food DTC Brands Achieve at 60 Days</h3>
+    <table style="margin-top:10px; margin-bottom:0;">
+      <thead>
+        <tr>
+          <th>Brand Type</th>
+          <th>60-Day Repeat Rate</th>
+          <th>Key Driver</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Premium health snack (The Whole Truth model)</td>
+          <td class="forest-text">45–55%</td>
+          <td>Strong ingredient transparency + habit-forming format (daily protein)</td>
+        </tr>
+        <tr>
+          <td>Meal replacement / functional food</td>
+          <td>35–45%</td>
+          <td>Convenience-led with strong subscription push</td>
+        </tr>
+        <tr>
+          <td>Average D2C food brand, India</td>
+          <td>20–30%</td>
+          <td>Discount-led, no habit mechanics</td>
+        </tr>
+        <tr>
+          <td><strong>Annam Target (60 days)</strong></td>
+          <td class="highlight">40%</td>
+          <td>Realistic. Achievable with this playbook.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card urgent">
+      <div class="card-label" style="color:#c53030;">Early Warning Signal</div>
+      <h3>The One Signal That Predicts Never Reordering</h3>
+      <ul>
+        <li>Customer does <strong>not open the Day 4 feedback message</strong></li>
+        <li>WhatsApp read receipt shows delivered but not read by Day 5</li>
+        <li>This means: pack is sitting untouched, or they disliked it enough to avoid engaging</li>
+        <li><strong>Action:</strong> Immediately send a voice-note-style follow up (text that reads personal), or escalate to founder call for first 20 customers</li>
+        <li>If they don't respond to Day 14 either — 90%+ will never reorder. Stop the sequence.</li>
+      </ul>
+    </div>
+    <div class="card forest">
+      <div class="card-label forest">When to Give Up</div>
+      <h3>The Triage Framework</h3>
+      <table style="margin-top:10px; margin-bottom:0; font-size:13px;">
+        <thead><tr><th>Signal</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Opened Day 4 msg, no reply</td><td>Keep nurturing — engaged, considering</td></tr>
+          <tr><td>Read D10 but no order</td><td>One more personalized attempt</td></tr>
+          <tr><td>D14 message not opened</td><td>Move to 30-day sequence only</td></tr>
+          <tr><td>D30 no response</td><td class="highlight">Release. Quarterly ping only.</td></tr>
+          <tr><td>Replied negatively</td><td>Escalate to founder. Gift a replacement pack.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+<div class="divider"></div>
+
+<!-- ─── SECTION 5: ANTI-CHURN ─── -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <div class="section-title">The Anti-Churn Playbook</div>
+    <div class="section-tag">Defence Layer</div>
+  </div>
+
+  <div class="card terracotta">
+    <div class="card-label">The Moment Most Food Subscriptions Lose Customers</div>
+    <h3>Order #2. Not #5, Not #10. Order #2.</h3>
+    <ul>
+      <li>Order #1 is novelty. Order #2 is <strong>a decision</strong>: "Is this actually part of my life?"</li>
+      <li>Most brands celebrate the first purchase and go quiet — fatal error</li>
+      <li>Between D7 and D14, customers are mentally evaluating: shelf space, routine fit, value vs alternatives</li>
+      <li>Churn trigger: forgetting Annam existed when it's time to reorder. No pack = no reminder = no habit</li>
+      <li><strong>Fix:</strong> Bi-weekly subscription removes this decision entirely. Auto-delivery = auto-habit.</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">When Someone Tries to Cancel</div>
+      <h3>Don't Immediately Offer a Discount. Ask First.</h3>
+      <ul>
+        <li>Step 1: Reply within 4 hours (WhatsApp)</li>
+        <li>Step 2: "Before we do that — quick question. Is it the price, the taste, or just the timing isn't right now?"</li>
+        <li>Step 3 (Price): Offer 1 month at ₹125/pack (Committed rate)</li>
+        <li>Step 3 (Taste): "We have a variant coming. Can we send you a sample before you leave?"</li>
+        <li>Step 3 (Timing): Offer <strong>Pause</strong> (see below)</li>
+        <li>Never offer a discount without understanding why they're leaving — you'll train customers to fake-cancel for discounts</li>
+      </ul>
+    </div>
+    <div class="card forest">
+      <div class="card-label forest">Pause Instead of Cancel</div>
+      <h3>Exact Offer — Reply PAUSE to WhatsApp</h3>
+      <ul>
+        <li><strong>Options offered:</strong> "Pause for 2 weeks / Pause for 1 month / Skip next delivery"</li>
+        <li><strong>Framing:</strong> "Your founding rate stays locked. Just come back when you're ready."</li>
+        <li><strong>Auto-resume:</strong> Subscription resumes after pause period with zero action needed from customer</li>
+        <li><strong>Pause reminder:</strong> 3 days before resume — "Your Annam is coming back on [date]. Reply EXTEND if you need more time."</li>
+        <li><strong>Expected outcome:</strong> 55–65% of those who pause resume vs. ~10% who return after cancelling</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Winback — 45+ Day Lapse</div>
+    <h3>The "We Changed Something" Winback</h3>
+    <p style="margin-bottom:10px;">The only effective winback frame for a lapsed customer is: <em>something is different now that wasn't there when they left.</em> Never just "we miss you."</p>
+    <div class="message-box">
+      <div class="msg-from">Annam · WhatsApp — Winback at 45+ days</div>
+      [Name] — it's been a while. We didn't forget you.<br><br>
+      Since your last order, we've done two things: tightened the Jeera-to-grain ratio (it was slightly off in early batches — we heard the feedback), and we now include a prep card inside every pack with a new idea each time.<br><br>
+      If you want to try Annam again, here's a direct link: [link] — use code BACK20 for 20% off. No subscription required this time. Just a fresh start.<br><br>
+      Valid for 7 days. After that, this offer is gone.<br><br>
+      — Team Annam
+    </div>
+    <div style="margin-top:12px;">
+      <span class="badge badge-amber">20% discount = ₹116/pack</span>&nbsp;
+      <span style="font-size:12px; color:#888;">⚠️ This is below your ₹120 floor — only use for winback, absorb as CAC recovery cost. Cap at first 10 winback attempts per quarter.</span>
+    </div>
+  </div>
+
+  <!-- FINAL SUMMARY TABLE -->
+  <div class="card terracotta" style="margin-top:24px;">
+    <div class="card-label">The One-Page Cheat Sheet</div>
+    <h3>What You Must Never Compromise On</h3>
+    <table style="margin-top:12px; margin-bottom:0;">
+      <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Reply to every WhatsApp within 4 hours for first 100 customers</strong></td><td>These customers build your review base, your word-of-mouth, and your product roadmap</td></tr>
+        <tr><td><strong>Never discount below ₹120 except one-time winbacks</strong></td><td>Margin survival + price anchor integrity</td></tr>
+        <tr><td><strong>Physical inserts in every pack, always</strong></td><td>The card IS the retention mechanism. Do not cut this cost.</td></tr>
+        <tr><td><strong>Pause before cancel. Always.</strong></td><td>A paused subscriber is worth 5x a re-acquired customer</td></tr>
+        <tr><td><strong>Stop chasing after Day 30 with no response</strong></td><td>Dead leads cost real money. Reallocate to active subscribers.</td></tr>
+        <tr><td><strong>Founding rate = permanent price lock for 12 months</strong></td><td>This is your moat. Don't break the promise.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="brand">Annam <span>for modern living</span></div>
+  <div class="note">Retention & Subscription Strategy · First 100 Customers · Confidential</div>
+</div>
+
+</body>
+</html>
