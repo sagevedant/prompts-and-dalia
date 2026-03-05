@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Smart Money Is Going — 2026 · @thebhave</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --card: #111111;
+    --card2: #161616;
+    --border: rgba(255,255,255,0.07);
+    --gold: #D4A96A;
+    --gold-dim: rgba(212,169,106,0.1);
+    --gold-border: rgba(212,169,106,0.2);
+    --white: #F0EBE0;
+    --muted: rgba(240,235,224,0.4);
+    --muted2: rgba(240,235,224,0.2);
+    --safe: #4A9E6B;
+    --safe-dim: rgba(74,158,107,0.1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--black); color:var(--white); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+
+  /* GRAIN */
+  body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; }
+
+  /* HERO */
+  .hero { min-height:60vh; display:flex; flex-direction:column; justify-content:center; padding:80px 48px 60px; position:relative; overflow:hidden; border-bottom:1px solid var(--border); }
+  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px); background-size:60px 60px; mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 40%,transparent 100%); }
+  .hero-glow { position:absolute; width:600px; height:600px; background:radial-gradient(circle,rgba(212,169,106,0.05) 0%,transparent 70%); top:-200px; right:-100px; pointer-events:none; }
+  .source-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--gold); background:var(--gold-dim); border:1px solid var(--gold-border); padding:5px 14px; border-radius:20px; width:fit-content; margin-bottom:24px; }
+  .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(52px,9vw,110px); line-height:0.88; color:var(--white); max-width:800px; }
+  .hero h1 em { color:var(--gold); font-style:normal; display:block; }
+  .hero-sub { font-size:15px; color:var(--muted); max-width:540px; margin-top:24px; line-height:1.75; }
+  .hero-pills { display:flex; gap:10px; margin-top:32px; flex-wrap:wrap; }
+  .pill { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; padding:6px 14px; border-radius:20px; border:1px solid var(--border); color:var(--muted); }
+  .pill.g { color:var(--safe); border-color:rgba(74,158,107,0.3); background:var(--safe-dim); }
+  .pill.gold { color:var(--gold); border-color:var(--gold-border); background:var(--gold-dim); }
+
+  /* INTRO BANNER */
+  .banner { background:var(--card2); border-bottom:1px solid var(--border); padding:20px 48px; display:flex; align-items:center; gap:16px; }
+  .banner-icon { font-size:20px; }
+  .banner-text { font-size:13px; color:var(--muted); line-height:1.6; }
+  .banner-text strong { color:var(--white); }
+
+  /* SECTIONS */
+  .section { padding:72px 48px; border-bottom:1px solid var(--border); }
+  .section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:40px; gap:24px; flex-wrap:wrap; }
+  .section-label { display:flex; flex-direction:column; gap:8px; }
+  .eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:10px; }
+  .eyebrow::after { content:''; width:30px; height:1px; background:rgba(212,169,106,0.4); }
+  .section-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(36px,5vw,60px); line-height:0.92; color:var(--white); }
+  .section-note { font-size:12px; color:var(--muted2); font-family:'DM Mono',monospace; max-width:200px; text-align:right; line-height:1.6; }
+
+  /* IDEA GRID */
+  .ideas-grid { display:flex; flex-direction:column; gap:2px; }
+  .idea-card { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; transition:border-color 0.2s; cursor:pointer; }
+  .idea-card:hover { border-color:rgba(212,169,106,0.25); }
+  .idea-card.open .idea-body { display:block; }
+  .idea-card.open .idea-toggle { transform:rotate(180deg); }
+  .idea-head { display:grid; grid-template-columns:48px 1fr 32px; align-items:center; gap:16px; padding:20px 24px; }
+  .idea-num { font-family:'Bebas Neue',sans-serif; font-size:32px; color:rgba(212,169,106,0.2); line-height:1; }
+  .idea-title { font-size:15px; font-weight:600; color:var(--white); }
+  .idea-toggle { font-size:12px; color:var(--muted2); transition:transform 0.2s; text-align:center; }
+  .idea-body { display:none; padding:0 24px 20px 88px; }
+  .idea-points { display:flex; flex-direction:column; gap:8px; }
+  .idea-point { font-size:13px; color:var(--muted); line-height:1.65; display:flex; gap:10px; }
+  .idea-point::before { content:'→'; color:var(--gold); flex-shrink:0; font-size:12px; margin-top:2px; }
+  .standout { background:rgba(212,169,106,0.06); border-left:2px solid var(--gold); padding:10px 14px; border-radius:0 6px 6px 0; margin-top:8px; font-size:12px; color:var(--gold); font-family:'DM Mono',monospace; line-height:1.6; }
+
+  /* DIVIDER */
+  .org-divider { display:flex; align-items:center; gap:16px; padding:48px 48px 0; }
+  .org-divider-line { flex:1; height:1px; background:var(--border); }
+  .org-divider-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:3px; text-transform:uppercase; color:var(--muted2); }
+
+  /* CTA */
+  .cta-section { padding:80px 48px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:24px; }
+  .cta-eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); }
+  .cta-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,6vw,72px); color:var(--white); line-height:0.92; max-width:600px; }
+  .cta-title em { color:var(--gold); font-style:normal; }
+  .cta-sub { font-size:14px; color:var(--muted); max-width:440px; line-height:1.75; }
+  .cta-btn { display:inline-flex; align-items:center; gap:10px; background:var(--gold); color:#0A0A0A; font-weight:700; font-size:13px; padding:14px 28px; border-radius:8px; text-decoration:none; letter-spacing:0.5px; transition:all 0.2s; }
+  .cta-btn:hover { transform:translateY(-2px); opacity:0.9; }
+
+  /* FOOTER */
+  .footer { border-top:1px solid var(--border); padding:32px 48px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-brand { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--gold); font-style:italic; }
+  .footer-note { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted2); letter-spacing:1px; }
+
+  .reveal { opacity:0; transform:translateY(16px); transition:opacity 0.5s ease,transform 0.5s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:768px) {
+    .hero,.section,.banner,.cta-section,.footer { padding-left:20px; padding-right:20px; }
+    .idea-body { padding-left:64px; }
+    .section-note { display:none; }
+    .org-divider { padding-left:20px; padding-right:20px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="source-tag">a16z + YC · 2026 Research</div>
+  <h1>Where Smart<em>Money Is Going.</em></h1>
+  <p class="hero-sub">a16z and Y Combinator just told you exactly where the next billion dollar companies will be built. Most people scrolled past it. Here's the complete list.</p>
+  <div class="hero-pills">
+    <span class="pill gold">a16z Big Ideas 2026</span>
+    <span class="pill gold">YC Request for Startups 2026</span>
+    <span class="pill g">Curated by @thebhave</span>
+  </div>
+</section>
+
+<div class="banner">
+  <div class="banner-icon">💡</div>
+  <div class="banner-text"><strong>Why this matters:</strong> Every year the smartest investors publish exactly what they want to fund. This is the closest thing to a cheat code for founders that exists publicly. Tap any idea to expand.</div>
+</div>
+
+<!-- A16Z -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">
+      <div class="eyebrow">Andreessen Horowitz</div>
+      <div class="section-title">a16z Big Ideas<br>To Build · 2026</div>
+    </div>
+    <div class="section-note">5 categories · 20+ specific opportunities</div>
+  </div>
+
+  <div class="ideas-grid">
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">01</div>
+        <div class="idea-title">Infrastructure</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">Multimodal data: extract structure from documents, images, and videos for the enterprise</div>
+          <div class="idea-point">Agent-native infrastructure: support massive "agent-speed" workloads</div>
+          <div class="idea-point">Multimodal creative tools: give a model whatever form of reference content you have and work with it to make something new or edit an existing scene</div>
+          <div class="idea-point">AI-native data stack: how AI agents navigate context problems + the evolution of BI tools</div>
+          <div class="idea-point">Interactive video: starts feeling like a place we can actually step into</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">02</div>
+        <div class="idea-title">Consumer</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">AI-native university: professors become architects of learning, curating data, tuning models</div>
+          <div class="idea-point">Healthy MAUs emerge: consumers who aren't sick but want to monitor their health</div>
+          <div class="idea-point">ChatGPT becomes the AI app store: developers can now tap ChatGPT's 900M users</div>
+          <div class="idea-point">World models in storytelling: full 3D environments from text prompts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">03</div>
+        <div class="idea-title">Crypto</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">Privacy creates network effects: privacy differentiates chains and creates chain lock-in</div>
+          <div class="idea-point">Prediction markets scale: become bigger, broader, and smarter</div>
+          <div class="idea-point">Know your agent: agents will need cryptographically signed credentials to transact</div>
+          <div class="idea-point">Staked media: not only embraces idea of having skin in the game, but supplies the proof</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">04</div>
+        <div class="idea-title">Enterprise + Fintech</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">Systems of record lose primacy: the interface becomes a dynamic agent layer</div>
+          <div class="idea-point">Vertical AI goes multiplayer: the collaboration layer becomes the moat</div>
+          <div class="idea-point">Voice agents expand: handling entire workflows and customer relationship cycles</div>
+          <div class="idea-point">AI-native banking infrastructure: streamlined and parallelized workflows</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">05</div>
+        <div class="idea-title">American Dynamism</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">AI-native industrial base: companies built with simulation, automated design, and operations from day one</div>
+          <div class="idea-point">Factory mindset: modular deployment of AI with skilled workers to make complex processes operate like assembly lines</div>
+          <div class="idea-point">Physical observability: understanding what's happening in cities, power grids, in real time</div>
+          <div class="idea-point">Autonomous scientific labs: labs that close the loop from hypothesis to experiment to design</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="org-divider reveal">
+  <div class="org-divider-line"></div>
+  <div class="org-divider-label">Y Combinator</div>
+  <div class="org-divider-line"></div>
+</div>
+
+<!-- YC -->
+<section class="section">
+  <div class="section-header reveal">
+    <div class="section-label">
+      <div class="eyebrow">Y Combinator</div>
+      <div class="section-title">Request For<br>Startups · 2026</div>
+    </div>
+    <div class="section-note">7 categories · the exact problems YC wants funded</div>
+  </div>
+
+  <div class="ideas-grid">
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">01</div>
+        <div class="idea-title">Cursor for Product Managers</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">Opportunity to help teams figure out what to build, not just how to build it</div>
+          <div class="idea-point">Upload customer interviews and product usage data, ask "what should we build next?"</div>
+          <div class="idea-point">The way we define and communicate "what to build" needs to change</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">02</div>
+        <div class="idea-title">AI-Native Hedge Funds</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">The next Renaissance, Bridgewater, and D.E. Shaw's are going to be built on AI</div>
+          <div class="idea-point">The biggest funds in the world have been slow to adapt</div>
+          <div class="idea-point">Swarms of agents will do what hedge fund traders do now</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">03</div>
+        <div class="idea-title">AI-Native Agencies</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">Agencies have always been crazy hard to scale</div>
+          <div class="idea-point">Now instead of selling software to customers to help them work, you can use the software</div>
+          <div class="idea-point">You can charge way more by selling them the finished product at 100x the price</div>
+          <div class="idea-point">Agencies of the future will look more like software companies, with margin and scale</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">04</div>
+        <div class="idea-title">Stablecoin Financial Services</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">Much of the financial services layer remains unbuilt</div>
+          <div class="idea-point">Room for financial services that offer DeFi benefits like better yield or tokenized assets</div>
+          <div class="idea-point">The regulatory window is open, the rails are being laid, perfect time to build</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">05</div>
+        <div class="idea-title">AI for Government</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">People now fill in forms and applications with unprecedented speed and accuracy</div>
+          <div class="idea-point">Government needs AI tools to deal with the huge increase coming down the line</div>
+          <div class="idea-point">Selling to government is hard, but very sticky and can expand to huge contracts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">06</div>
+        <div class="idea-title">Modern Metal Mills</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">American metal mills are slow by design, systems were designed decades ago</div>
+          <div class="idea-point">Automation has lagged at the exact moment the workforce is shrinking</div>
+          <div class="idea-point">Software and energy technology are good enough to rethink the entire system</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card reveal" onclick="this.classList.toggle('open')">
+      <div class="idea-head">
+        <div class="idea-num">07</div>
+        <div class="idea-title">AI Guidance for Physical Work</div>
+        <div class="idea-toggle">▼</div>
+      </div>
+      <div class="idea-body">
+        <div class="idea-points">
+          <div class="idea-point">Real-time AI guidance that can see, reason, and guide the human who does the work</div>
+          <div class="idea-point">Imagine wearing a small camera while an AI talks you through the job</div>
+          <div class="idea-point">Three things have converged: multimodal models, hardware everywhere, and skilled labor shortages</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal">
+  <div class="cta-eyebrow">@thebhave</div>
+  <div class="cta-title">Building In<em>Public.</em></div>
+  <p class="cta-sub">Following this space closely — from AI infrastructure to security to what gets funded next. More coming.</p>
+  <a href="https://instagram.com/thebhave" target="_blank" class="cta-btn">Follow The Journey →</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand">@thebhave</div>
+  <div class="footer-note">Sources: a16z Big Ideas 2026 · YC Request for Startups 2026</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
